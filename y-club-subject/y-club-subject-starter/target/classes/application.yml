@@ -1,3 +1,35 @@
 server:
   port:
     8888
+
+spring:
+  datasource:
+    druid:
+      username: admin
+      password: Wing1Q2W#E
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://116.196.94.167:3306/Y-club?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=true
+      type: com.alibaba.druid.pool.DruidDataSource
+      driver:
+        connectionProperties: config.decrypt=true;config.decrypt.key=${publicKey};
+        initial-size: 20
+        min-idle: 20
+        max-active: 100
+        max-wait: 60000
+        stat-view-servlet:
+          enabled: true
+          url-pattern: /druid/*
+          login-username: admin
+          login-password: AyqVc5O6SjnbyxUtFzm2vE3h9coFL31v948geeIl7vHt0P0WSKM3GjioiR3/8C6SCVILSqiSuQXVxMmPcR7Wcg==
+        filter:
+          stat:
+            enabled: true
+            slow-sql-mills: 2000
+            log-slow-sql: true
+          wall:
+            enabled: true
+          config:
+            enabled: true
+
+publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAK+32mTR9k8/VUHFJTDxJoEs7RWSWpKH3wfqHfFmi2f7liPIz3RSQY519Wn25coqaNWOceABELhxIq+Z2gmH2fsCAwEAAQ==
+

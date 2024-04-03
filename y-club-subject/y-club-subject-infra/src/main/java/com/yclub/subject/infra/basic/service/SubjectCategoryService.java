@@ -3,6 +3,8 @@ package com.yclub.subject.infra.basic.service;
 import com.yclub.subject.infra.basic.entity.SubjectCategory;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 
 /**
  * 题目分类(SubjectCategory)表服务接口
@@ -34,7 +36,7 @@ public interface SubjectCategoryService {
      * @param subjectCategory 实例对象
      * @return 实例对象
      */
-    SubjectCategory update(SubjectCategory subjectCategory);
+    int update(SubjectCategory subjectCategory);
 
     /**
      * 通过主键删除数据
@@ -44,4 +46,7 @@ public interface SubjectCategoryService {
      */
     boolean deleteById(Long id);
 
+    List<SubjectCategory> queryCategory(SubjectCategory subjectCategory);
+
+    Integer querySubjectCount(Long id);
 }

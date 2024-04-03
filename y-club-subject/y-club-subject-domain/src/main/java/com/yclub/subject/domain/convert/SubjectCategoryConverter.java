@@ -6,6 +6,8 @@ import com.yclub.subject.infra.basic.entity.SubjectCategory;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * @desc:
  * @author: zyg
@@ -16,5 +18,7 @@ public interface SubjectCategoryConverter {
     SubjectCategoryConverter INSTANCE = Mappers.getMapper(SubjectCategoryConverter.class);
 
     SubjectCategory convertBOToCategory(SubjectCategoryBO subjectCategoryBO);
+
+    List<SubjectCategoryBO> convertToBOList(List<SubjectCategory> subjectCategoryList);
 
 }

@@ -2,6 +2,8 @@ package com.yclub.subject.domain.service;
 
 import com.yclub.subject.domain.entity.SubjectCategoryBO;
 
+import java.util.List;
+
 /**
  * @desc:
  * @author: zyg
@@ -9,4 +11,10 @@ import com.yclub.subject.domain.entity.SubjectCategoryBO;
  */
 public interface SubjectCategoryDomainService {
     void add(SubjectCategoryBO subjectCategoryBO);
+
+    Boolean update(SubjectCategoryBO subjectCategoryBO);
+
+    List<SubjectCategoryBO> queryCategory(SubjectCategoryBO subjectCategoryBO);
+
+    Boolean delete(SubjectCategoryBO subjectCategoryBO);
 }

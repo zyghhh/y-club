@@ -10,7 +10,6 @@ import java.util.Date;
  * @since 2024-04-02 17:09:22
  */
 public class SubjectMapping implements Serializable {
-    private static final long serialVersionUID = 126568028554567183L;
     /**
      * 主键
      */

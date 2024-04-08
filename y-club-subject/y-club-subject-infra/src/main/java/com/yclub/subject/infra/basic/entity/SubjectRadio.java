@@ -13,7 +13,6 @@ import java.util.Date;
  */
 @Data
 public class SubjectRadio implements Serializable {
-    private static final long serialVersionUID = -70867410743113486L;
     /**
      * 主键
      */

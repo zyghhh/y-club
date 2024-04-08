@@ -13,7 +13,6 @@ import java.util.Date;
  */
 @Data
 public class SubjectMultiple implements Serializable {
-    private static final long serialVersionUID = -78361927277166770L;
     /**
      * 主键
      */

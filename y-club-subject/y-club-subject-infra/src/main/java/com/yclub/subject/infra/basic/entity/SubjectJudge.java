@@ -13,7 +13,6 @@ import java.util.Date;
  */
 @Data
 public class SubjectJudge implements Serializable {
-    private static final long serialVersionUID = -11455293283325028L;
     /**
      * 主键
      */

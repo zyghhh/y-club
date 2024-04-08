@@ -47,4 +47,5 @@ public interface SubjectLabelService {
     boolean deleteById(Long id);
 
     List<SubjectLabel> batchQueryByIds(List<Long> labelIdList);
+
 }

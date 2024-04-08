@@ -16,7 +16,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="SubjectJudgeMap">
         select
-idsubject_idis_correctcreated_bycreated_timeupdate_byupdate_timeis_deleted
+            id, subject_id, is_correct, created_by, created_time, update_by, update_time, is_deleted
         from subject_judge
         where id = #{id}
     </select>
@@ -24,7 +24,7 @@ idsubject_idis_correctcreated_bycreated_timeupdate_byupdate_timeis_deleted
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SubjectJudgeMap">
         select
-idsubject_idis_correctcreated_bycreated_timeupdate_byupdate_timeis_deleted
+        id, subject_id, is_correct, created_by, created_time, update_by, update_time, is_deleted
         from subject_judge
         <where>
             <if test="id != null">
@@ -52,9 +52,7 @@ idsubject_idis_correctcreated_bycreated_timeupdate_byupdate_timeis_deleted
                 and is_deleted = #{isDeleted}
             </if>
         </where>
-        limit #{pageable.offset}, #{pageable.pageSize}
     </select>
-
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
@@ -89,26 +87,32 @@ idsubject_idis_correctcreated_bycreated_timeupdate_byupdate_timeis_deleted
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into subject_judge(subject_idis_correctcreated_bycreated_timeupdate_byupdate_timeis_deleted)
-        values (#{subjectId}#{isCorrect}#{createdBy}#{createdTime}#{updateBy}#{updateTime}#{isDeleted})
+        insert into subject_judge(subject_id, is_correct, created_by, created_time, update_by, update_time, is_deleted)
+        values (#{subjectId}, #{isCorrect}, #{createdBy}, #{createdTime}, #{updateBy}, #{updateTime}, #{isDeleted})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into subject_judge(subject_idis_correctcreated_bycreated_timeupdate_byupdate_timeis_deleted)
+        insert into subject_judge(subject_id, is_correct, created_by, created_time, update_by, update_time, is_deleted)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.subjectId}#{entity.isCorrect}#{entity.createdBy}#{entity.createdTime}#{entity.updateBy}#{entity.updateTime}#{entity.isDeleted})
+            (#{entity.subjectId}, #{entity.isCorrect}, #{entity.createdBy}, #{entity.createdTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.isDeleted})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into subject_judge(subject_idis_correctcreated_bycreated_timeupdate_byupdate_timeis_deleted)
+        insert into subject_judge(subject_id, is_correct, created_by, created_time, update_by, update_time, is_deleted)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.subjectId}#{entity.isCorrect}#{entity.createdBy}#{entity.createdTime}#{entity.updateBy}#{entity.updateTime}#{entity.isDeleted})
+            (#{entity.subjectId}, #{entity.isCorrect}, #{entity.createdBy}, #{entity.createdTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.isDeleted})
         </foreach>
         on duplicate key update
-subject_id = values(subject_id)is_correct = values(is_correct)created_by = values(created_by)created_time = values(created_time)update_by = values(update_by)update_time = values(update_time)is_deleted = values(is_deleted)
+        subject_id = values(subject_id),
+        is_correct = values(is_correct),
+        created_by = values(created_by),
+        created_time = values(created_time),
+        update_by = values(update_by),
+        update_time = values(update_time),
+        is_deleted = values(is_deleted)
     </insert>
 
     <!--通过主键修改数据-->

@@ -13,7 +13,6 @@ import java.util.Date;
  */
 @Data
 public class SubjectCategory implements Serializable {
-    private static final long serialVersionUID = 614888477938796840L;
     /**
      * 主键
      */

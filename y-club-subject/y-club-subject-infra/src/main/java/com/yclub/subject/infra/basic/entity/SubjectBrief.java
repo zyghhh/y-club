@@ -14,7 +14,6 @@ import java.util.Date;
  */
 @Data
 public class SubjectBrief implements Serializable {
-    private static final long serialVersionUID = 339015876069373952L;
     /**
      * 主键
      */
@@ -22,7 +21,7 @@ public class SubjectBrief implements Serializable {
     /**
      * 题目id
      */
-    private Integer subjectId;
+    private Long subjectId;
     /**
      * 题目答案
      */

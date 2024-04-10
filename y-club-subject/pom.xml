@@ -15,8 +15,6 @@
         <module>y-club-subject-infra</module>
         <module>y-club-subject-starter</module>
         <module>y-club-subject-common</module>
-        <module>y-club-subject-infra</module>
-        <module>y-club-subject-application/y-club-application-controller</module>
     </modules>
 
     <properties>

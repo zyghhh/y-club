@@ -1,0 +1,7 @@
+com\yclub\subject\common\entity\PageResult.class
+com\yclub\subject\common\enums\ResultCodeEnum.class
+com\yclub\subject\common\enums\IsDeletedFlagEnum.class
+com\yclub\subject\common\entity\Result.class
+com\yclub\subject\common\enums\SubjectInfoTypeEnum.class
+com\yclub\subject\common\entity\PageInfo.class
+com\yclub\subject\common\enums\CategoryTypeEnum.class

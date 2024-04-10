@@ -1,0 +1,19 @@
+11:06:04.304  [main] INFO  com.yclub.subject.SubjectApplication - Starting SubjectApplication using Java 18.0.1.1 on LAPTOP-PVCM3L0D with PID 34136 (C:\Users\26338\Desktop\y-club\y-club-subject\y-club-subject-starter\target\y-club-subject-starter.jar started by 26338 in C:\Users\26338\Desktop\y-club\y-club-subject\y-club-subject-starter\target)
+11:06:04.330  [main] INFO  com.yclub.subject.SubjectApplication - No active profile set, falling back to default profiles: default
+11:06:08.480  [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 3010 (http)
+11:06:08.500  [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-3010"]
+11:06:08.502  [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+11:06:08.503  [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.41]
+11:06:08.506  [main] INFO  org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.32] using APR version [1.7.0].
+11:06:08.509  [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true].
+11:06:08.511  [main] INFO  org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+11:06:08.531  [main] INFO  org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1n  15 Mar 2022]
+11:06:08.679  [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+11:06:08.681  [main] INFO  org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4153 ms
+11:06:08.961  [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+11:06:22.934  [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+11:06:24.683  [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-3010"]
+11:06:24.798  [main] INFO  org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 3010 (http) with context path ''
+11:06:24.822  [main] INFO  com.yclub.subject.SubjectApplication - Started SubjectApplication in 21.9 seconds (JVM running for 25.12)
+15:55:47.485  [SpringContextShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closing ...
+15:55:47.668  [SpringContextShutdownHook] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed

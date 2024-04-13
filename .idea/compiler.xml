@@ -8,10 +8,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="y-club-subject-starter" />
-        <module name="y-club-subject-domain" />
         <module name="y-club-subject-api" />
         <module name="y-club-subject-infra" />
         <module name="y-club-application-controller" />
+        <module name="y-club-oss" />
+        <module name="y-club-subject-domain" />
         <module name="y-club-subject-common" />
       </profile>
     </annotationProcessing>

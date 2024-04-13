@@ -1,10 +1,12 @@
 package com.yclub.subject.domain.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.yclub.subject.common.enums.CategoryTypeEnum;
 import com.yclub.subject.common.enums.IsDeletedFlagEnum;
 import com.yclub.subject.domain.convert.SubjectLabelConverter;
 import com.yclub.subject.domain.entity.SubjectLabelBO;
 import com.yclub.subject.domain.service.SubjectLabelDomainService;
+import com.yclub.subject.infra.basic.entity.SubjectCategory;
 import com.yclub.subject.infra.basic.entity.SubjectLabel;
 import com.yclub.subject.infra.basic.entity.SubjectMapping;
 import com.yclub.subject.infra.basic.service.SubjectCategoryService;
@@ -74,6 +76,14 @@ public class SubjectLabelDomainServiceImpl implements SubjectLabelDomainService 
     @Override
     public List<SubjectLabelBO> queryLabelByCategoryId(SubjectLabelBO subjectLabelBO) {
         Long categoryId = subjectLabelBO.getCategoryId();
+        SubjectCategory subjectCategory = subjectCategoryService.queryById(categoryId);
+        if(subjectCategory.getCategoryType() == CategoryTypeEnum.PRIMARY.getCode()){
+            SubjectLabel subjectLabel = new SubjectLabel();
+            subjectLabel.setCategoryId(categoryId);
+            List<SubjectLabel> subjectLabelList =subjectLabelService.queryByCondition(subjectLabel);
+            List<SubjectLabelBO> subjectLabelBOS = SubjectLabelConverter.INSTANCE.convertToBOList(subjectLabelList);
+            return subjectLabelBOS;
+        }
         SubjectMapping subjectMapping = new SubjectMapping();
         subjectMapping.setCategoryId(categoryId);
         subjectMapping.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());

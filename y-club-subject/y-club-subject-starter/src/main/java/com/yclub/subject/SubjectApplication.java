@@ -14,7 +14,6 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan("com.yclub")
 @MapperScan("com.yclub.**.mapper")
 public class SubjectApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(SubjectApplication.class);
     }

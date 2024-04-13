@@ -17,8 +17,6 @@ import java.util.List;
 public interface SubjectLabelConverter {
     SubjectLabelConverter INSTANCE = Mappers.getMapper(SubjectLabelConverter.class);
 
-    SubjectLabel convertBOToLabel(SubjectLabelBO subjectLabelBO);
-
     List<SubjectLabelBO> convertToBOList(List<SubjectLabel> subjectLabelList);
 
     SubjectLabel convertBoToLabel(SubjectLabelBO subjectLabelBO);

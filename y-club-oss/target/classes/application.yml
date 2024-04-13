@@ -1,0 +1,6 @@
+server:
+  port: 4000
+minio:
+  url: http://116.196.94.167:9000
+  accessKey: minioroot
+  secretKey: minioroot

@@ -72,5 +72,7 @@ public interface SubjectLabelDao {
     int deleteById(Long id);
 
     List<SubjectLabel> batchQueryByIds(List<Long> labelIdList);
+
+    List<SubjectLabel> queryByCondition(SubjectLabel subjectLabel);
 }
 

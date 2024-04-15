@@ -7,6 +7,8 @@
         <option value="$PROJECT_DIR$/y-club-subject/pom.xml" />
         <option value="$PROJECT_DIR$/y-club-subject-api/pom.xml" />
         <option value="$PROJECT_DIR$/y-club-oss/pom.xml" />
+        <option value="$PROJECT_DIR$/y-club-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/y-club-gateway/pom.xml" />
       </list>
     </option>
   </component>

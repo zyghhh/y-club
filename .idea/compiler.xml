@@ -8,12 +8,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="y-club-subject-starter" />
+        <module name="y-club-auth-starter" />
+        <module name="y-club-auth-application-controller" />
+        <module name="y-club-application-controller" />
+        <module name="y-club-auth-application-mq" />
+        <module name="y-club-auth-domain" />
+        <module name="y-club-auth-infra" />
+        <module name="y-club-subject-common" />
         <module name="y-club-subject-api" />
         <module name="y-club-subject-infra" />
-        <module name="y-club-application-controller" />
+        <module name="y-club-auth-common" />
         <module name="y-club-oss" />
         <module name="y-club-subject-domain" />
-        <module name="y-club-subject-common" />
+        <module name="y-club-gateway" />
+        <module name="y-club-auth-application-job" />
+        <module name="y-club-auth-api" />
       </profile>
     </annotationProcessing>
   </component>

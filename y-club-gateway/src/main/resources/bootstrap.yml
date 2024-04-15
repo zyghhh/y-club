@@ -1,6 +1,6 @@
 spring:
   application:
-    name: y-club-subject-dev
+    name: y-club-gateway-dev
   profiles:
     active: dev
   cloud:

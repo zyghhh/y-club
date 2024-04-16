@@ -56,4 +56,17 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
         return null;
     }
 
+    @Override
+    public Boolean delete(AuthUserBO authUserBO) {
+        AuthUser authUser = AuthUserBOConverter.INSTANCE.convertBOToEntity(authUserBO);
+        authUser.setIsDeleted(IsDeletedFlagEnum.DELETED.getCode());
+        return authUserService.update(authUser) > 0;
+    }
+
+    @Override
+    @SneakyThrows
+    public Boolean update(AuthUserBO authUserBO) {
+        AuthUser authUser = AuthUserBOConverter.INSTANCE.convertBOToEntity(authUserBO);
+        return authUserService.update(authUser) > 0;
+    }
 }

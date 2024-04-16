@@ -18,5 +18,9 @@ public interface AuthUserDomainService {
     Boolean register(AuthUserBO authUserBO);
 
     SaTokenInfo doLogin(String validCode);
+
+    Boolean update(AuthUserBO authUserBO);
+
+    Boolean delete(AuthUserBO authUserBO);
 }
 

@@ -1,6 +1,7 @@
 package com.yclub.auth.application.controller.application.controller;
 
 import cn.dev33.satoken.context.model.SaRequest;
+import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.dev33.satoken.util.SaResult;
@@ -33,6 +34,8 @@ public class UserController {
     @Resource
     private AuthUserDomainService authUserDomainService;
 
+    private String salt = "erwerwewerw3r34rg45tht45";
+
     /**
      * 用户注册
      */
@@ -44,6 +47,7 @@ public class UserController {
             }
             checkUserInfo(authUserDTO);
             AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
+            authUserBO.setPassword(SaSecureUtil.sha256BySalt(authUserBO.getPassword(),salt));
             return Result.ok(authUserDomainService.register(authUserBO));
         } catch (Exception e) {
             log.error("UserController.register.error:{}", e.getMessage(), e);
@@ -55,23 +59,63 @@ public class UserController {
         Preconditions.checkArgument(!StringUtils.isBlank(authUserDTO.getUserName()), "用户名不能为空");
     }
 
-//    /**
-//     * 修改用户信息
-//     */
-//    @RequestMapping("update")
-//    public Result<Boolean> update(@RequestBody AuthUserDTO authUserDTO) {
-//        try {
-//            if (log.isInfoEnabled()) {
-//                log.info("UserController.update.dto:{}", JSON.toJSONString(authUserDTO));
-//            }
-//            checkUserInfo(authUserDTO);
-//            AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
-//            return Result.ok(authUserDomainService.update(authUserBO));
-//        } catch (Exception e) {
-//            log.error("UserController.update.error:{}", e.getMessage(), e);
-//            return Result.fail("更新用户信息失败");
-//        }
-//    }
+    /**
+     * 修改用户信息
+     */
+    @RequestMapping("update")
+    public Result<Boolean> update(@RequestBody AuthUserDTO authUserDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("UserController.update.dto:{}", JSON.toJSONString(authUserDTO));
+            }
+            checkUserInfo(authUserDTO);
+            Preconditions.checkNotNull(authUserDTO.getId());
+            AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
+            return Result.ok(authUserDomainService.update(authUserBO));
+        } catch (Exception e) {
+            log.error("UserController.update.error:{}", e.getMessage(), e);
+            return Result.fail("更新用户信息失败");
+        }
+    }
+
+    /**
+     * 用户启用/禁用
+     */
+    @RequestMapping("changeStatus")
+    public Result<Boolean> changeStatus(@RequestBody AuthUserDTO authUserDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("UserController.changeStatus.dto:{}", JSON.toJSONString(authUserDTO));
+            }
+            Preconditions.checkNotNull(authUserDTO.getId());
+            Preconditions.checkNotNull(authUserDTO.getStatus(), "用户状态不能为空");
+            AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
+            return Result.ok(authUserDomainService.update(authUserBO));
+        } catch (Exception e) {
+            log.error("UserController.changeStatus.error:{}", e.getMessage(), e);
+            return Result.fail("启用/禁用用户信息失败");
+        }
+    }
+
+        /**
+     * 删除用户
+     */
+    @RequestMapping("delete")
+    public Result<Boolean> delete(@RequestBody AuthUserDTO authUserDTO) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("UserController.delete.dto:{}", JSON.toJSONString(authUserDTO));
+            }
+            AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
+            Preconditions.checkNotNull(authUserDTO.getId());
+            return Result.ok(authUserDomainService.delete(authUserBO));
+        } catch (Exception e) {
+            log.error("UserController.update.error:{}", e.getMessage(), e);
+            return Result.fail("删除用户信息失败");
+        }
+    }
+
+
 //
 //    /**
 //     * 获取用户信息
@@ -108,22 +152,7 @@ public class UserController {
 //        }
 //    }
 //
-//    /**
-//     * 删除用户
-//     */
-//    @RequestMapping("delete")
-//    public Result<Boolean> delete(@RequestBody AuthUserDTO authUserDTO) {
-//        try {
-//            if (log.isInfoEnabled()) {
-//                log.info("UserController.delete.dto:{}", JSON.toJSONString(authUserDTO));
-//            }
-//            AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
-//            return Result.ok(authUserDomainService.update(authUserBO));
-//        } catch (Exception e) {
-//            log.error("UserController.update.error:{}", e.getMessage(), e);
-//            return Result.fail("删除用户信息失败");
-//        }
-//    }
+
 //
 
 //

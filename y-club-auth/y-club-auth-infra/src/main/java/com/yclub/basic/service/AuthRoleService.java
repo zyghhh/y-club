@@ -35,7 +35,7 @@ public interface AuthRoleService {
      * @param authRole 实例对象
      * @return 实例对象
      */
-    AuthRole insert(AuthRole authRole);
+    Integer insert(AuthRole authRole);
 
     /**
      * 修改数据
@@ -43,7 +43,7 @@ public interface AuthRoleService {
      * @param authRole 实例对象
      * @return 实例对象
      */
-    AuthRole update(AuthRole authRole);
+    Integer update(AuthRole authRole);
 
     /**
      * 通过主键删除数据

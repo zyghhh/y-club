@@ -52,7 +52,6 @@ id, role_id, permission_id, created_by, created_time, update_by, update_time, is
                 and is_deleted = #{isDeleted}
             </if>
         </where>
-        limit #{pageable.offset}, #{pageable.pageSize}
     </select>
 
     <!--统计总行数-->
@@ -97,9 +96,10 @@ id, role_id, permission_id, created_by, created_time, update_by, update_time, is
         insert into auth_role_permission(role_id, permission_id, created_by, created_time, update_by, update_time, is_deleted)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.roleId}#{entity.permissionId}#{entity.createdBy}#{entity.createdTime}#{entity.updateBy}#{entity.updateTime}#{entity.isDeleted})
+            (#{entity.roleId}, #{entity.permissionId}, #{entity.createdBy}, #{entity.createdTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.isDeleted})
         </foreach>
     </insert>
+
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
         insert into auth_role_permission(role_id, permission_id, created_by, created_time, update_by, update_time, is_deleted)

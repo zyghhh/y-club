@@ -30,12 +30,12 @@ public class SaTokenConfigure {
                 .setAuth(obj -> {
                     System.out.println("-------- 前端访问path：" + SaHolder.getRequest().getRequestPath());
                     // 登录校验 -- 拦截所有路由，并排除/user/doLogin 用于开放登录
-                    SaRouter.match("/**", "/auth/user/doLogin", r -> StpUtil.checkLogin());
+//                    SaRouter.match("/**", "/auth/user/doLogin", r -> StpUtil.checkLogin());
 //                    SaRouter.match("/**", "/auth/user/doLogin", r -> StpUtil.checkRole("admin"));
 
                     // 权限认证 -- 不同模块, 校验不同权限
-                    SaRouter.match("/subject/**", r -> StpUtil.checkRole("admin"));
-                    SaRouter.match("/subject/**", r -> StpUtil.checkPermission("user:edit"));
+                    SaRouter.match("/subject/**", r -> StpUtil.checkRole("normal_user"));
+                    SaRouter.match("/subject/add", r -> StpUtil.checkPermission("subject:add"));
 
 
                     // 更多匹配 ...  */

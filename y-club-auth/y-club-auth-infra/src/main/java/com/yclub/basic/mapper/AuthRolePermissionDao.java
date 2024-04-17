@@ -28,7 +28,7 @@ public interface AuthRolePermissionDao {
      * @param pageable         分页对象
      * @return 对象列表
      */
-    List<AuthRolePermission> queryAllByLimit(AuthRolePermission authRolePermission, @Param("pageable") Pageable pageable);
+    List<AuthRolePermission> queryAllByLimit(AuthRolePermission authRolePermission);
 
     /**
      * 统计总行数

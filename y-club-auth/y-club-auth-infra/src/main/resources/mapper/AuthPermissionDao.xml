@@ -134,6 +134,13 @@
             #{id}
         </foreach>
     </select>
+    <select id="queryByIdList" resultMap="AuthPermissionMap">
+        select * from auth_permission
+        where id in
+        <foreach open="(" close=")" collection="list" item="id" separator=",">
+            #{id}
+        </foreach>
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">

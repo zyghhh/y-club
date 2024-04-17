@@ -4,6 +4,8 @@ import com.yclub.basic.entity.AuthRolePermission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 /**
  * 角色权限关联表(AuthRolePermission)表服务接口
  *
@@ -20,14 +22,6 @@ public interface AuthRolePermissionService {
      */
     AuthRolePermission queryById(Long id);
 
-    /**
-     * 分页查询
-     *
-     * @param authRolePermission 筛选条件
-     * @param pageRequest        分页对象
-     * @return 查询结果
-     */
-    Page<AuthRolePermission> queryByPage(AuthRolePermission authRolePermission, PageRequest pageRequest);
 
     /**
      * 新增数据
@@ -53,4 +47,7 @@ public interface AuthRolePermissionService {
      */
     boolean deleteById(Long id);
 
+    int batchInsert(List<AuthRolePermission> rolePermissionList);
+
+    List<AuthRolePermission> queryByCondition(AuthRolePermission authRolePermission);
 }

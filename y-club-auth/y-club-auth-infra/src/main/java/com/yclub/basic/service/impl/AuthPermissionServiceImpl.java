@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * (AuthPermission)表服务实现类
@@ -77,5 +78,10 @@ public class AuthPermissionServiceImpl implements AuthPermissionService {
     @Override
     public boolean deleteById(Long id) {
         return this.authPermissionDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public List<AuthPermission> queryByIdList(List<Long> permissionIdList) {
+        return this.authPermissionDao.queryByIdList(permissionIdList);
     }
 }

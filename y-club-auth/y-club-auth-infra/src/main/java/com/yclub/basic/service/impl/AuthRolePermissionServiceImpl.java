@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 角色权限关联表(AuthRolePermission)表服务实现类
@@ -32,18 +33,7 @@ public class AuthRolePermissionServiceImpl implements AuthRolePermissionService 
         return this.authRolePermissionDao.queryById(id);
     }
 
-    /**
-     * 分页查询
-     *
-     * @param authRolePermission 筛选条件
-     * @param pageRequest        分页对象
-     * @return 查询结果
-     */
-    @Override
-    public Page<AuthRolePermission> queryByPage(AuthRolePermission authRolePermission, PageRequest pageRequest) {
-        long total = this.authRolePermissionDao.count(authRolePermission);
-        return new PageImpl<>(this.authRolePermissionDao.queryAllByLimit(authRolePermission, pageRequest), pageRequest, total);
-    }
+
 
     /**
      * 新增数据
@@ -69,6 +59,11 @@ public class AuthRolePermissionServiceImpl implements AuthRolePermissionService 
         return this.queryById(authRolePermission.getId());
     }
 
+    @Override
+    public int batchInsert(List<AuthRolePermission> rolePermissionList) {
+        return this.authRolePermissionDao.insertBatch(rolePermissionList);
+    }
+
     /**
      * 通过主键删除数据
      *
@@ -78,5 +73,10 @@ public class AuthRolePermissionServiceImpl implements AuthRolePermissionService 
     @Override
     public boolean deleteById(Long id) {
         return this.authRolePermissionDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public List<AuthRolePermission> queryByCondition(AuthRolePermission authRolePermission) {
+        return this.authRolePermissionDao.queryAllByLimit(authRolePermission);
     }
 }

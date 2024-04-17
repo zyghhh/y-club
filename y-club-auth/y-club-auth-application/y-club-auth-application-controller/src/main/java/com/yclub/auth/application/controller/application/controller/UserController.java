@@ -149,27 +149,6 @@ public class UserController {
 //    }
 //
 
-//
-
-//
-//    /**
-//     * 用户启用/禁用
-//     */
-//    @RequestMapping("changeStatus")
-//    public Result<Boolean> changeStatus(@RequestBody AuthUserDTO authUserDTO) {
-//        try {
-//            if (log.isInfoEnabled()) {
-//                log.info("UserController.changeStatus.dto:{}", JSON.toJSONString(authUserDTO));
-//            }
-//            Preconditions.checkNotNull(authUserDTO.getStatus(), "用户状态不能为空");
-//            AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
-//            return Result.ok(authUserDomainService.update(authUserBO));
-//        } catch (Exception e) {
-//            log.error("UserController.changeStatus.error:{}", e.getMessage(), e);
-//            return Result.fail("启用/禁用用户信息失败");
-//        }
-//    }
-
     @RequestMapping("doLogin")
     public Result<SaTokenInfo> doLogin(@RequestParam("validCode") String validCode) {
         try {

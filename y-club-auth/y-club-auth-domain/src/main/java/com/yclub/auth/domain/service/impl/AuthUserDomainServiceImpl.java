@@ -9,10 +9,9 @@ import com.yclub.auth.common.enums.IsDeletedFlagEnum;
 import com.yclub.auth.domain.consatnts.AuthConstant;
 import com.yclub.auth.domain.convert.AuthUserBOConverter;
 import com.yclub.auth.domain.entity.AuthUserBO;
+import com.yclub.auth.domain.redis.RedisUtil;
 import com.yclub.auth.domain.service.AuthUserDomainService;
-import com.yclub.basic.entity.AuthRole;
-import com.yclub.basic.entity.AuthUser;
-import com.yclub.basic.entity.AuthUserRole;
+import com.yclub.basic.entity.*;
 import com.yclub.basic.service.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +43,10 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
 
     @Resource
     private AuthRoleService authRoleService;
+
+    @Resource
+    private RedisUtil redisUtil;
+
 
 
 
@@ -87,12 +91,39 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
         authUserRole.setRoleId(roleId);
         authUserRole.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
         count = authUserRoleService.insert(authUserRole);
+
+
+        //
+        String roleKey = redisUtil.buildKey(authRolePrefix, authUser.getUserName());
+        List<AuthRole> roleList = new ArrayList<>();
+        roleList.add(authRole);
+        redisUtil.set(roleKey,new Gson().toJson(roleList));
+
+        AuthRolePermission authRolePermission = new AuthRolePermission();
+        authRolePermission.setRoleId(roleId);
+        List<AuthRolePermission> authRolePermissions = authRolePermissionService.queryByCondition(authRolePermission);
+        if (!CollectionUtils.isEmpty(authRolePermissions)) {
+            List<Long> permissionIdList = authRolePermissions.stream().map(AuthRolePermission::getPermissionId).collect(Collectors.toList());
+            List<AuthPermission> authPermissions = authPermissionService.queryByIdList(permissionIdList);
+            String permissionKey = redisUtil.buildKey(authPermissionPrefix, authUser.getUserName());
+            redisUtil.set(permissionKey,new Gson().toJson(authPermissions));
+        }
         return count > 0;
     }
 
     @Override
     public SaTokenInfo doLogin(String validCode) {
-        return null;
+        String key = redisUtil.buildKey(LOGIN_PREFIX, validCode);
+        String openId = redisUtil.get(key);
+        if(StringUtils.isBlank(openId)){
+            return null;
+        }
+        AuthUserBO authUserBO = new AuthUserBO();
+        authUserBO.setUserName(openId);
+        this.register(authUserBO);
+        StpUtil.login(openId);
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return tokenInfo;
     }
 
     @Override

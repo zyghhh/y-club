@@ -1,6 +1,7 @@
 package com.yclub.basic.service.impl;
 
 import com.yclub.basic.entity.AuthRole;
+import com.yclub.basic.entity.AuthUser;
 import com.yclub.basic.mapper.AuthRoleDao;
 import com.yclub.basic.service.AuthRoleService;
 import org.springframework.data.domain.Page;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * (AuthRole)表服务实现类
@@ -76,5 +78,10 @@ public class AuthRoleServiceImpl implements AuthRoleService {
     @Override
     public boolean deleteById(Long id) {
         return this.authRoleDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public AuthRole queryByCondition(AuthRole authRole) {
+        return this.authRoleDao.queryByCondition(authRole);
     }
 }

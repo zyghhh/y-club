@@ -33,9 +33,6 @@ public class UserController {
 
     @Resource
     private AuthUserDomainService authUserDomainService;
-
-    private String salt = "erwerwewerw3r34rg45tht45";
-
     /**
      * 用户注册
      */
@@ -47,7 +44,6 @@ public class UserController {
             }
             checkUserInfo(authUserDTO);
             AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
-            authUserBO.setPassword(SaSecureUtil.sha256BySalt(authUserBO.getPassword(),salt));
             return Result.ok(authUserDomainService.register(authUserBO));
         } catch (Exception e) {
             log.error("UserController.register.error:{}", e.getMessage(), e);

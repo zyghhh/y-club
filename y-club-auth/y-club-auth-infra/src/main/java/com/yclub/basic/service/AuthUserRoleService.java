@@ -35,7 +35,7 @@ public interface AuthUserRoleService {
      * @param authUserRole 实例对象
      * @return 实例对象
      */
-    AuthUserRole insert(AuthUserRole authUserRole);
+    Integer insert(AuthUserRole authUserRole);
 
     /**
      * 修改数据

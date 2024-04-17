@@ -80,5 +80,6 @@ public interface AuthRoleDao {
      */
     int deleteById(Long id);
 
+    AuthRole queryByCondition(AuthRole authRole);
 }
 

@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 用户信息表(AuthUser)表服务实现类
@@ -33,18 +34,6 @@ public class AuthUserServiceImpl implements AuthUserService {
         return this.authUserDao.queryById(id);
     }
 
-    /**
-     * 分页查询
-     *
-     * @param authUser    筛选条件
-     * @param pageRequest 分页对象
-     * @return 查询结果
-     */
-    @Override
-    public Page<AuthUser> queryByPage(AuthUser authUser, PageRequest pageRequest) {
-        long total = this.authUserDao.count(authUser);
-        return new PageImpl<>(this.authUserDao.queryAllByLimit(authUser, pageRequest), pageRequest, total);
-    }
 
     /**
      * 新增数据
@@ -77,5 +66,10 @@ public class AuthUserServiceImpl implements AuthUserService {
     @Override
     public boolean deleteById(Long id) {
         return this.authUserDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public List<AuthUser> queryByCondition(AuthUser existAuthUser) {
+        return this.authUserDao.queryAllByLimit(existAuthUser);
     }
 }

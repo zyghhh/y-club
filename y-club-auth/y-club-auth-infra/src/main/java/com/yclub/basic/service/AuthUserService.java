@@ -4,6 +4,8 @@ import com.yclub.basic.entity.AuthUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 /**
  * 用户信息表(AuthUser)表服务接口
  *
@@ -20,14 +22,6 @@ public interface AuthUserService {
      */
     AuthUser queryById(Long id);
 
-    /**
-     * 分页查询
-     *
-     * @param authUser    筛选条件
-     * @param pageRequest 分页对象
-     * @return 查询结果
-     */
-    Page<AuthUser> queryByPage(AuthUser authUser, PageRequest pageRequest);
 
     /**
      * 新增数据
@@ -53,4 +47,5 @@ public interface AuthUserService {
      */
     boolean deleteById(Long id);
 
+    List<AuthUser> queryByCondition(AuthUser existAuthUser);
 }

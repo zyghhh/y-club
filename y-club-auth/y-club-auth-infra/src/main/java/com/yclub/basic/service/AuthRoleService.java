@@ -1,8 +1,11 @@
 package com.yclub.basic.service;
 
 import com.yclub.basic.entity.AuthRole;
+import com.yclub.basic.entity.AuthUser;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 /**
  * (AuthRole)表服务接口
@@ -53,4 +56,5 @@ public interface AuthRoleService {
      */
     boolean deleteById(Long id);
 
+    AuthRole queryByCondition(AuthRole authRole);
 }

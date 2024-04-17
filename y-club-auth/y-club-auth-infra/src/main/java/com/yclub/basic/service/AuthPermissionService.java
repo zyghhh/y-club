@@ -35,7 +35,7 @@ public interface AuthPermissionService {
      * @param authPermission 实例对象
      * @return 实例对象
      */
-    AuthPermission insert(AuthPermission authPermission);
+    Integer insert(AuthPermission authPermission);
 
     /**
      * 修改数据
@@ -43,7 +43,7 @@ public interface AuthPermissionService {
      * @param authPermission 实例对象
      * @return 实例对象
      */
-    AuthPermission update(AuthPermission authPermission);
+    Integer update(AuthPermission authPermission);
 
     /**
      * 通过主键删除数据

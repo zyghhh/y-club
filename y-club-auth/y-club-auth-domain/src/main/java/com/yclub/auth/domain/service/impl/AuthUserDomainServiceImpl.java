@@ -6,11 +6,14 @@ import cn.dev33.satoken.stp.StpUtil;
 import com.google.gson.Gson;
 import com.yclub.auth.common.enums.AuthUserStatusEnum;
 import com.yclub.auth.common.enums.IsDeletedFlagEnum;
+import com.yclub.auth.domain.consatnts.AuthConstant;
 import com.yclub.auth.domain.convert.AuthUserBOConverter;
 import com.yclub.auth.domain.entity.AuthUserBO;
 import com.yclub.auth.domain.service.AuthUserDomainService;
+import com.yclub.basic.entity.AuthRole;
 import com.yclub.basic.entity.AuthUser;
-import com.yclub.basic.service.AuthUserService;
+import com.yclub.basic.entity.AuthUserRole;
+import com.yclub.basic.service.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -30,9 +33,20 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
     @Resource
     private AuthUserService authUserService;
 
+    @Resource
+    private AuthUserRoleService authUserRoleService;
+    @Resource
+    private AuthPermissionService authPermissionService;
+
+    @Resource
+    private AuthRolePermissionService authRolePermissionService;
+
+    @Resource
+    private AuthRoleService authRoleService;
 
 
-    private String salt = "chicken";
+
+    private String salt = "yclubhhhhh";
 
     private String authPermissionPrefix = "auth.permission";
 
@@ -45,10 +59,35 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
     @Transactional(rollbackFor = Exception.class)
     public Boolean register(AuthUserBO authUserBO) {
         //校验用户是否存在
+        AuthUser existAuthUser = new AuthUser();
+        existAuthUser.setUserName(authUserBO.getUserName());
+        List<AuthUser> existUser = authUserService.queryByCondition(existAuthUser);
+        if (!existUser.isEmpty()) {
+            return true;
+        }
         AuthUser authUser = AuthUserBOConverter.INSTANCE.convertBOToEntity(authUserBO);
+        if (StringUtils.isNotBlank(authUser.getPassword())) {
+            authUser.setPassword(SaSecureUtil.sha256BySalt(authUser.getPassword(), salt));
+        }
+        if (StringUtils.isBlank(authUser.getAvatar())) {
+            authUser.setAvatar("http://117.72.10.84:9000/user/icon/微信图片_20231203153718(1).png");
+        }
         authUser.setStatus(AuthUserStatusEnum.OPEN.getCode());
         authUser.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
-        return authUserService.insert(authUser) > 0;
+        int count = authUserService.insert(authUser);
+
+        //建立一个初步的角色的关联
+        AuthRole authRole = new AuthRole();
+        authRole.setRoleKey(AuthConstant.NORMAL_USER);
+        AuthRole roleResult = authRoleService.queryByCondition(authRole);
+        Long roleId = roleResult.getId();
+        Long userId = authUser.getId();
+        AuthUserRole authUserRole = new AuthUserRole();
+        authUserRole.setUserId(userId);
+        authUserRole.setRoleId(roleId);
+        authUserRole.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
+        count = authUserRoleService.insert(authUserRole);
+        return count > 0;
     }
 
     @Override

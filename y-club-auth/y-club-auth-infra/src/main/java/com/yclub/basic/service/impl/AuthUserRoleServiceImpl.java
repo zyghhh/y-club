@@ -52,9 +52,8 @@ public class AuthUserRoleServiceImpl implements AuthUserRoleService {
      * @return 实例对象
      */
     @Override
-    public AuthUserRole insert(AuthUserRole authUserRole) {
-        this.authUserRoleDao.insert(authUserRole);
-        return authUserRole;
+    public Integer insert(AuthUserRole authUserRole) {
+        return this.authUserRoleDao.insert(authUserRole);
     }
 
     /**

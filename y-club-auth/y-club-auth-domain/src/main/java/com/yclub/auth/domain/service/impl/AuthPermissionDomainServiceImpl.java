@@ -33,7 +33,7 @@ public class AuthPermissionDomainServiceImpl implements AuthPermissionDomainServ
     @Resource
     private RedisUtil redisUtil;
 
-    private String authPermissionPrefix = "auth.permission.";
+    private String authPermissionPrefix = "auth.permission";
 
     @Override
     public Boolean add(AuthPermissionBO authPermissionBO) {

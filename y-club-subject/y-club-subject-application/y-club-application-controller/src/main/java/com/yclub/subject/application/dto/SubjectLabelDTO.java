@@ -3,7 +3,6 @@ package com.yclub.subject.application.dto;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 题目标签表(SubjectLabel)实体类DTO

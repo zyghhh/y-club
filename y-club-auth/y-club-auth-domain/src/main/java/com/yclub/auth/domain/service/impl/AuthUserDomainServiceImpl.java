@@ -47,9 +47,6 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
     @Resource
     private RedisUtil redisUtil;
 
-
-
-
     private String salt = "yclubhhhhh";
 
     private String authPermissionPrefix = "auth.permission";
@@ -138,5 +135,17 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
     public Boolean update(AuthUserBO authUserBO) {
         AuthUser authUser = AuthUserBOConverter.INSTANCE.convertBOToEntity(authUserBO);
         return authUserService.update(authUser) > 0;
+    }
+
+    @Override
+    public AuthUserBO getUserInfo(AuthUserBO authUserBO) {
+        AuthUser authUser = new AuthUser();
+        authUser.setUserName(authUserBO.getUserName());
+        List<AuthUser> authUsers = authUserService.queryByCondition(authUser);
+        if(authUsers.size() == 1){
+            AuthUserBO authUserBO1 = AuthUserBOConverter.INSTANCE.convertEntityToBO(authUsers.get(0));
+            return authUserBO1;
+        }
+        return new AuthUserBO();
     }
 }

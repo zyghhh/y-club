@@ -8,7 +8,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-04-17T09:12:24+0800",
+    date = "2024-04-18T11:26:42+0800",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_212 (Oracle Corporation)"
 )
 public class AuthRolePermissionDTOConverterImpl implements AuthRolePermissionDTOConverter {

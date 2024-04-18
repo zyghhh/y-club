@@ -50,4 +50,6 @@ public interface SubjectMappingService {
     void batchInsert(List<SubjectMapping> subjectMappingList);
 
     List<SubjectMapping> queryLabelId(SubjectMapping subjectMapping);
+
+    List<SubjectMapping> queryByCondition(SubjectMapping subjectMapping);
 }

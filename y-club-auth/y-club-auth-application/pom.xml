@@ -15,7 +15,6 @@
         <module>y-club-auth-application-controller</module>
         <module>y-club-auth-application-mq</module>
         <module>y-club-auth-application-job</module>
-        <module>y-club-auth-application-job</module>
     </modules>
 
     <properties>

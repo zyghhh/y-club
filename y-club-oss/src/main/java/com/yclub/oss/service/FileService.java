@@ -4,6 +4,7 @@ import com.yclub.oss.adapter.StorageAdapter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -40,5 +41,9 @@ public class FileService {
         storageAdapter.uploadFile(uploadFile,bucket,objectName);
         objectName = objectName + "/" + uploadFile.getOriginalFilename();
         return storageAdapter.getUrl(bucket, objectName);
+    }
+
+    public InputStream download(String bucket, String objectName) {
+        return storageAdapter.downLoad(bucket,objectName);
     }
 }

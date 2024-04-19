@@ -1,6 +1,5 @@
 package com.yclub.subject.application.dto;
 
-import com.yclub.subject.domain.entity.SubjectLabelBO;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -42,7 +41,7 @@ public class SubjectCategoryDTO implements Serializable {
     /**
      * 标签
      */
-    private List<SubjectLabelDTO> labelList;
+    private List<SubjectLabelDTO> labelDTOList;
 
 
 }

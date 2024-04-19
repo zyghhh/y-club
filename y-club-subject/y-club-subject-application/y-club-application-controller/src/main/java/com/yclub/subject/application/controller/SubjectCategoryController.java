@@ -6,22 +6,24 @@ import com.yclub.subject.application.convert.SubjectCategoryDTOConverter;
 import com.yclub.subject.application.convert.SubjectLabelDTOConverter;
 import com.yclub.subject.application.dto.SubjectCategoryDTO;
 import com.yclub.subject.application.dto.SubjectLabelDTO;
+import com.yclub.subject.application.util.LoginUtil;
 import com.yclub.subject.common.entity.Result;
-import com.yclub.subject.domain.convert.SubjectLabelConverter;
 import com.yclub.subject.domain.entity.SubjectCategoryBO;
 import com.yclub.subject.domain.service.SubjectCategoryDomainService;
 import com.yclub.subject.infra.basic.entity.SubjectCategory;
-import com.yclub.subject.infra.basic.entity.SubjectLabel;
 import com.yclub.subject.infra.basic.service.SubjectCategoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -109,15 +111,20 @@ public class SubjectCategoryController {
                 log.info("SubjectCategoryController.queryCategoryAndLabel.dto:{}"
                         , JSON.toJSONString(subjectCategoryDTO));
             }
+            String loginId = LoginUtil.getLoginId();
             Preconditions.checkNotNull(subjectCategoryDTO.getId(), "分类id不能为空");
+            subjectCategoryDTO.setParentId(subjectCategoryDTO.getId());
+            subjectCategoryDTO.setId(null);
             SubjectCategoryBO subjectCategoryBO = SubjectCategoryDTOConverter.INSTANCE.convertDTOToBOCategory(subjectCategoryDTO);
             List<SubjectCategoryBO> subjectCategoryBOList = subjectCategoryDomainService.queryCategoryAndLabel(subjectCategoryBO);
             List<SubjectCategoryDTO> result = new ArrayList<>();
             subjectCategoryBOList.forEach(subjectCategoryBO1 -> {
                 SubjectCategoryDTO subjectCategoryDTO1 = SubjectCategoryDTOConverter.INSTANCE.convertBoToCategoryDTO(subjectCategoryBO1);
-                List<SubjectLabelDTO> subjectLabelDTOList = SubjectLabelDTOConverter.INSTANCE.
-                        convertBoToLabelDTOList(subjectCategoryBO1.getLabelBOList());
-                subjectCategoryDTO1.setLabelList(subjectLabelDTOList);
+                if(!CollectionUtils.isEmpty(subjectCategoryBO1.getLabelBOList())){
+                    List<SubjectLabelDTO> subjectLabelDTOList = SubjectLabelDTOConverter.INSTANCE.
+                            convertBoToLabelDTOList(subjectCategoryBO1.getLabelBOList());
+                    subjectCategoryDTO1.setLabelDTOList(subjectLabelDTOList);
+                }
                 result.add(subjectCategoryDTO1);
             });
             return Result.ok(result);

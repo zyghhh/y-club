@@ -198,7 +198,7 @@
     <select id="queryCategory" resultMap="SubjectCategoryMap">
         select * from subject_category
         <where>
-            <if test="id != null">
+            <if test="id != null and id != ''">
                 and id = #{id}
             </if>
             <if test="categoryName != null and categoryName != ''">

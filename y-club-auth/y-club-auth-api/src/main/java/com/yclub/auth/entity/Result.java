@@ -1,9 +1,6 @@
-package com.yclub.auth.common.entity;
+package com.yclub.auth.entity;
 
-import com.yclub.auth.common.enums.ResultCodeEnum;
 import lombok.Data;
-
-import java.util.Date;
 
 /**
  * @desc:
@@ -15,7 +12,7 @@ import java.util.Date;
 public class Result<T> {
     private int code;
     private String message;
-    private boolean success;
+    private Boolean success;
     private T data;
 
 
@@ -54,6 +51,5 @@ public class Result<T> {
         result.setData(data);
         return result;
     }
-
 
 }

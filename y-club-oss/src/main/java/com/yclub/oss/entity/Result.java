@@ -12,7 +12,7 @@ import lombok.Data;
 public class Result<T> {
     private int code;
     private String message;
-    private boolean success;
+    private Boolean success;
     private T data;
 
 

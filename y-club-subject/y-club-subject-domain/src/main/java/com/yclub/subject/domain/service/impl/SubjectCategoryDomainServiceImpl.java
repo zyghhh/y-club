@@ -1,6 +1,8 @@
 package com.yclub.subject.domain.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.yclub.subject.common.enums.IsDeletedFlagEnum;
 import com.yclub.subject.domain.config.ThreadPoolConfig;
 import com.yclub.subject.domain.convert.SubjectCategoryConverter;
@@ -16,15 +18,13 @@ import com.yclub.subject.infra.basic.service.SubjectLabelService;
 import com.yclub.subject.infra.basic.service.SubjectMappingService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -47,6 +47,11 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
 
     @Resource
     ThreadPoolExecutor labelThreadPool;
+
+    private Cache<String,String>  localCache = CacheBuilder
+            .newBuilder().maximumSize(5000)
+            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .build();
 
     @Override
     public void add(SubjectCategoryBO subjectCategoryBO) {
@@ -99,8 +104,22 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
     @Override
     @SneakyThrows
     public List<SubjectCategoryBO> queryCategoryAndLabel(SubjectCategoryBO subjectCategoryBO) {
-        SubjectCategory subjectCategory = SubjectCategoryConverter.INSTANCE
-                .convertBOToCategory(subjectCategoryBO);
+        Long queryId = subjectCategoryBO.getParentId();
+        String cacheKey = "categoryAndLabel." + queryId;
+        List<SubjectCategoryBO> boList;
+        String content = localCache.getIfPresent(cacheKey);
+        if(StringUtils.isEmpty(content)){
+            boList = getSubjectCategoryBOS(queryId);
+            localCache.put(cacheKey, JSON.toJSONString(boList));
+        } else{
+            boList = JSON.parseArray(content, SubjectCategoryBO.class);
+        }
+        return boList;
+    }
+
+    private List<SubjectCategoryBO> getSubjectCategoryBOS(Long queryId) throws Exception {
+        SubjectCategory subjectCategory = new SubjectCategory();
+        subjectCategory.setParentId(queryId);
         subjectCategory.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
         List<SubjectCategory> subjectCategoryList = subjectCategoryService.queryCategory(subjectCategory);
         List<SubjectCategoryBO> boList = SubjectCategoryConverter.INSTANCE.convertToBOList(subjectCategoryList);
@@ -108,7 +127,7 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
         //getCategoryLabels(boList);
 
         // 二期采用 线程池并发调用 futuretask 优化
-//        getCategoryLabelsByFutureTask(boList);
+        //getCategoryLabelsByFutureTask(boList);
 
         //继续优化  采用complatebleFuture
         getCategoryLabelsByCompletableFuture(boList);

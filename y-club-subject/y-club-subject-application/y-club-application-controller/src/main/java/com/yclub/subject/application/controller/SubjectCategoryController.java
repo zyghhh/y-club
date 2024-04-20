@@ -111,7 +111,7 @@ public class SubjectCategoryController {
                 log.info("SubjectCategoryController.queryCategoryAndLabel.dto:{}"
                         , JSON.toJSONString(subjectCategoryDTO));
             }
-            String loginId = LoginUtil.getLoginId();
+            LoginUtil.getLoginId();
             Preconditions.checkNotNull(subjectCategoryDTO.getId(), "分类id不能为空");
             subjectCategoryDTO.setParentId(subjectCategoryDTO.getId());
             subjectCategoryDTO.setId(null);

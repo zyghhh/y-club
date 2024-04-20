@@ -1,4 +1,4 @@
-package com.yclub.auth.common.enums;
+package com.yclub.auth.entity;
 
 import lombok.Getter;
 

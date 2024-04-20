@@ -1,7 +1,7 @@
 package com.yclub.auth.application.controller.application.convert;
 
-import com.yclub.auth.application.controller.application.dto.AuthUserDTO;
 import com.yclub.auth.domain.entity.AuthUserBO;
+import com.yclub.auth.entity.AuthUserDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

@@ -2,17 +2,12 @@ package com.yclub.auth.application.controller.application.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
-import com.yclub.auth.application.controller.application.convert.AuthPermissionDTOConverter;
 import com.yclub.auth.application.controller.application.convert.AuthRolePermissionDTOConverter;
-import com.yclub.auth.application.controller.application.dto.AuthPermissionDTO;
 import com.yclub.auth.application.controller.application.dto.AuthRolePermissionDTO;
-import com.yclub.auth.common.entity.Result;
-import com.yclub.auth.domain.entity.AuthPermissionBO;
 import com.yclub.auth.domain.entity.AuthRolePermissionBO;
-import com.yclub.auth.domain.service.AuthPermissionDomainService;
 import com.yclub.auth.domain.service.AuthRolePermissionDomainService;
+import com.yclub.auth.entity.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

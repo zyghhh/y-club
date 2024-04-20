@@ -1,4 +1,4 @@
-package com.yclub.auth.application.controller.application.dto;
+package com.yclub.auth.entity;
 
 import lombok.Data;
 

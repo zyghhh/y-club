@@ -1,17 +1,14 @@
 package com.yclub.auth.application.controller.application.controller;
 
-import cn.dev33.satoken.context.model.SaRequest;
-import cn.dev33.satoken.secure.SaSecureUtil;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.dev33.satoken.util.SaResult;
 import com.alibaba.fastjson.JSON;
 import com.google.common.base.Preconditions;
 import com.yclub.auth.application.controller.application.convert.AuthUserDTOConverter;
-import com.yclub.auth.application.controller.application.dto.AuthUserDTO;
-import com.yclub.auth.common.entity.Result;
 import com.yclub.auth.domain.entity.AuthUserBO;
 import com.yclub.auth.domain.service.AuthUserDomainService;
+import com.yclub.auth.entity.AuthUserDTO;
+import com.yclub.auth.entity.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;

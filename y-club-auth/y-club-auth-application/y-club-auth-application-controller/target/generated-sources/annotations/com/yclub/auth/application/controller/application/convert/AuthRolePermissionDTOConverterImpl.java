@@ -2,13 +2,11 @@ package com.yclub.auth.application.controller.application.convert;
 
 import com.yclub.auth.application.controller.application.dto.AuthRolePermissionDTO;
 import com.yclub.auth.domain.entity.AuthRolePermissionBO;
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-04-18T11:26:42+0800",
+    date = "2024-04-20T20:10:54+0800",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_212 (Oracle Corporation)"
 )
 public class AuthRolePermissionDTOConverterImpl implements AuthRolePermissionDTOConverter {
@@ -20,14 +18,6 @@ public class AuthRolePermissionDTOConverterImpl implements AuthRolePermissionDTO
         }
 
         AuthRolePermissionBO authRolePermissionBO = new AuthRolePermissionBO();
-
-        authRolePermissionBO.setId( authRolePermissionDTO.getId() );
-        authRolePermissionBO.setRoleId( authRolePermissionDTO.getRoleId() );
-        authRolePermissionBO.setPermissionId( authRolePermissionDTO.getPermissionId() );
-        List<Long> list = authRolePermissionDTO.getPermissionIdList();
-        if ( list != null ) {
-            authRolePermissionBO.setPermissionIdList( new ArrayList<Long>( list ) );
-        }
 
         return authRolePermissionBO;
     }

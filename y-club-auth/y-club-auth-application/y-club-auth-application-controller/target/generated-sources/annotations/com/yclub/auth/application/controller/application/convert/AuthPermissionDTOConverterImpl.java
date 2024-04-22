@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-04-22T16:15:28+0800",
+    date = "2024-04-22T16:34:31+0800",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_212 (Oracle Corporation)"
 )
 public class AuthPermissionDTOConverterImpl implements AuthPermissionDTOConverter {

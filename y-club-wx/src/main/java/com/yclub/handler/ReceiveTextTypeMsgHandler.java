@@ -41,8 +41,8 @@ public class ReceiveTextTypeMsgHandler implements WeChatMsgHandler {
         if (KEY_WORD.equals(content)) {
             Random random = new Random();
             int num = random.nextInt(1000000);
-        String numKey = redisUtil.buildKey(LOGIN_PREFIX, String.valueOf(num));
-        redisUtil.setNx(numKey, fromUserName, 5L, TimeUnit.MINUTES);
+            String numKey = redisUtil.buildKey(LOGIN_PREFIX, String.valueOf(num));
+            redisUtil.setNx(numKey, fromUserName, 600L, TimeUnit.MINUTES);
             String numContent = "您当前的验证码是：" + num + "！ 5分钟内有效";
             replyContent = "<xml>\n" +
                     "  <ToUserName><![CDATA[" + fromUserName + "]]></ToUserName>\n" +
@@ -51,7 +51,7 @@ public class ReceiveTextTypeMsgHandler implements WeChatMsgHandler {
                     "  <MsgType><![CDATA[text]]></MsgType>\n" +
                     "  <Content><![CDATA[" + numContent + "]]></Content>\n" +
                     "</xml>";
-        } else{
+        } else {
             String reply = "暂时只支持发送验证码哦~~  请发送\"验证码\"以获取验证码";
             replyContent = "<xml>\n" +
                     "  <ToUserName><![CDATA[" + fromUserName + "]]></ToUserName>\n" +

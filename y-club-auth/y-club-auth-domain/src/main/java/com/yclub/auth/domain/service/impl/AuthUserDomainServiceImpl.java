@@ -90,7 +90,7 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
         count = authUserRoleService.insert(authUserRole);
 
 
-        //
+        //存入缓存
         String roleKey = redisUtil.buildKey(authRolePrefix, authUser.getUserName());
         List<AuthRole> roleList = new ArrayList<>();
         roleList.add(authRole);

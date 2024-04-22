@@ -10,6 +10,7 @@ import com.yclub.subject.domain.convert.SubjectLabelConverter;
 import com.yclub.subject.domain.entity.SubjectCategoryBO;
 import com.yclub.subject.domain.entity.SubjectLabelBO;
 import com.yclub.subject.domain.service.SubjectCategoryDomainService;
+import com.yclub.subject.domain.util.CacheUtil;
 import com.yclub.subject.infra.basic.entity.SubjectCategory;
 import com.yclub.subject.infra.basic.entity.SubjectLabel;
 import com.yclub.subject.infra.basic.entity.SubjectMapping;
@@ -48,10 +49,6 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
     @Resource
     ThreadPoolExecutor labelThreadPool;
 
-    private Cache<String,String>  localCache = CacheBuilder
-            .newBuilder().maximumSize(5000)
-            .expireAfterWrite(10, TimeUnit.MINUTES)
-            .build();
 
     @Override
     public void add(SubjectCategoryBO subjectCategoryBO) {
@@ -106,31 +103,33 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
     public List<SubjectCategoryBO> queryCategoryAndLabel(SubjectCategoryBO subjectCategoryBO) {
         Long queryId = subjectCategoryBO.getParentId();
         String cacheKey = "categoryAndLabel." + queryId;
-        List<SubjectCategoryBO> boList;
-        String content = localCache.getIfPresent(cacheKey);
-        if(StringUtils.isEmpty(content)){
-            boList = getSubjectCategoryBOS(queryId);
-            localCache.put(cacheKey, JSON.toJSONString(boList));
-        } else{
-            boList = JSON.parseArray(content, SubjectCategoryBO.class);
-        }
+        List<SubjectCategoryBO> boList = CacheUtil.getListResult(cacheKey, SubjectCategoryBO.class, (key) -> getSubjectCategoryBOS(queryId));
+//        Map<String ,String> testMap = new HashMap<>();
+//        testMap.put("test","test");
+//        testMap.put("test1","test1");
+//        String mapKey = "testMap";
+//        Map mappedResult = CacheUtil.getMappedResult(mapKey, String.class, (key) -> testMap);
         return boList;
     }
 
-    private List<SubjectCategoryBO> getSubjectCategoryBOS(Long queryId) throws Exception {
+    private List<SubjectCategoryBO> getSubjectCategoryBOS(Long queryId) {
         SubjectCategory subjectCategory = new SubjectCategory();
         subjectCategory.setParentId(queryId);
         subjectCategory.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
         List<SubjectCategory> subjectCategoryList = subjectCategoryService.queryCategory(subjectCategory);
         List<SubjectCategoryBO> boList = SubjectCategoryConverter.INSTANCE.convertToBOList(subjectCategoryList);
-        // 一期优化  到子类加Label 一次查询
-        //getCategoryLabels(boList);
+        try {
+            // 一期优化  到子类加Label 一次查询
+            //getCategoryLabels(boList);
 
-        // 二期采用 线程池并发调用 futuretask 优化
-        //getCategoryLabelsByFutureTask(boList);
+            // 二期采用 线程池并发调用 futuretask 优化
+            //getCategoryLabelsByFutureTask(boList);
 
-        //继续优化  采用complatebleFuture
-        getCategoryLabelsByCompletableFuture(boList);
+            //继续优化  采用complatebleFuture
+            getCategoryLabelsByCompletableFuture(boList);
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         if (log.isInfoEnabled()) {
             log.info("SubjectCategoryController.queryPrimaryCategory.boList:{}",
                     JSON.toJSONString(boList));

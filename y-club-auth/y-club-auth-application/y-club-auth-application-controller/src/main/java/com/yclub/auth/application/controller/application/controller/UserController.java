@@ -64,6 +64,7 @@ public class UserController {
             checkUserInfo(authUserDTO);
             Preconditions.checkNotNull(authUserDTO.getId());
             AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
+            //由于权限控制直接依赖于redis 更新用户时是否要刷redis?
             return Result.ok(authUserDomainService.update(authUserBO));
         } catch (Exception e) {
             log.error("UserController.update.error:{}", e.getMessage(), e);

@@ -105,7 +105,7 @@
         values (#{subjectId}, #{optionType}, #{optionContent}, #{isCorrect}, #{createdBy}, #{createdTime}, #{updateBy}, #{updateTime}, #{isDeleted})
     </insert>
 
-    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+    <insert id="insertBatch"  useGeneratedKeys="true">
         insert into subject_multiple(subject_id, option_type, option_content, is_correct, created_by, created_time, update_by, update_time, is_deleted)
         values
         <foreach collection="entities" item="entity" separator=",">

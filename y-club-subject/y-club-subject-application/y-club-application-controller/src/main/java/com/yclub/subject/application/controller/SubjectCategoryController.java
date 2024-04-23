@@ -6,7 +6,6 @@ import com.yclub.subject.application.convert.SubjectCategoryDTOConverter;
 import com.yclub.subject.application.convert.SubjectLabelDTOConverter;
 import com.yclub.subject.application.dto.SubjectCategoryDTO;
 import com.yclub.subject.application.dto.SubjectLabelDTO;
-import com.yclub.subject.application.util.LoginUtil;
 import com.yclub.subject.common.entity.Result;
 import com.yclub.subject.domain.entity.SubjectCategoryBO;
 import com.yclub.subject.domain.service.SubjectCategoryDomainService;
@@ -111,7 +110,6 @@ public class SubjectCategoryController {
                 log.info("SubjectCategoryController.queryCategoryAndLabel.dto:{}"
                         , JSON.toJSONString(subjectCategoryDTO));
             }
-            LoginUtil.getLoginId();
             Preconditions.checkNotNull(subjectCategoryDTO.getId(), "分类id不能为空");
             subjectCategoryDTO.setParentId(subjectCategoryDTO.getId());
             subjectCategoryDTO.setId(null);

@@ -235,7 +235,7 @@ public class EsRestClient {
             Long minutes = esSearchRequest.getMinutes();
             Boolean needScroll = esSearchRequest.getNeedScroll();
             String sortName = esSearchRequest.getSortName();
-            SortOrder sortOrder = esSearchRequest.getSortOrder();
+            SortOrder sortOrder = esSearchRequest.getSortOrder() == null ? SortOrder.DESC : esSearchRequest.getSortOrder();
 
             SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
             searchSourceBuilder.query(bq);
@@ -326,7 +326,7 @@ public class EsRestClient {
         List<String> list = new ArrayList<String>();
         Request request = new Request("GET", "_analyze");
         JSONObject entity = new JSONObject();
-        entity.put("analyzer", "ik_smart");
+        entity.put("analyzer", "ik_max_word");
         entity.put("text", text);
         request.setJsonEntity(entity.toJSONString());
         Response response = getClient(esIndexInfo.getClusterName()).getLowLevelClient().performRequest(request);

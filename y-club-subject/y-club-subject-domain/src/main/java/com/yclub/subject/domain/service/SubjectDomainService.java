@@ -3,6 +3,7 @@ package com.yclub.subject.domain.service;
 import com.yclub.subject.common.entity.PageResult;
 import com.yclub.subject.domain.entity.SubjectCategoryBO;
 import com.yclub.subject.domain.entity.SubjectInfoBO;
+import com.yclub.subject.infra.basic.entity.SubjectInfoEs;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface SubjectDomainService {
     PageResult<SubjectInfoBO> getSubjectPage(SubjectInfoBO subjectInfoBO);
 
     SubjectInfoBO querySubjectInfo(SubjectInfoBO subjectInfoBO);
+
+    PageResult<SubjectInfoEs> getSubjectPageBySearch(SubjectInfoBO subjectInfoBO);
 }

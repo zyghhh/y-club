@@ -79,6 +79,11 @@ public class SubjectInfoBO extends PageInfo implements Serializable {
      */
     private List<SubjectAnswerBO> optionList;
 
+    /**
+     * 全文检索 关键词
+     */
+    private String keyWord;
+
     private Integer isDeleted;
 
 }

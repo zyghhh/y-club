@@ -77,6 +77,10 @@ public class SubjectInfoDTO extends PageInfo implements Serializable {
      */
     private List<SubjectAnswerDTO> optionList;
 
+    /**
+     * 全文检索 关键词
+     */
+    private String keyWord;
 
     private Integer isDeleted;
 

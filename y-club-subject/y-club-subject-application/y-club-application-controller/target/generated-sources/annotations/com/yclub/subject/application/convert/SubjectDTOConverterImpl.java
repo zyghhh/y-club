@@ -10,7 +10,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-04-24T09:55:39+0800",
+    date = "2024-04-24T22:39:36+0800",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_212 (Oracle Corporation)"
 )
 public class SubjectDTOConverterImpl implements SubjectDTOConverter {
@@ -52,6 +52,10 @@ public class SubjectDTOConverterImpl implements SubjectDTOConverter {
         subjectInfoBO.setCreateUser( subjectInfoDTO.getCreateUser() );
         subjectInfoBO.setCreateUserAvatar( subjectInfoDTO.getCreateUserAvatar() );
         subjectInfoBO.setSubjectCount( subjectInfoDTO.getSubjectCount() );
+        subjectInfoBO.setLikedCount( subjectInfoDTO.getLikedCount() );
+        subjectInfoBO.setLiked( subjectInfoDTO.getLiked() );
+        subjectInfoBO.setNextSubjectId( subjectInfoDTO.getNextSubjectId() );
+        subjectInfoBO.setLastSubjectId( subjectInfoDTO.getLastSubjectId() );
         subjectInfoBO.setIsDeleted( subjectInfoDTO.getIsDeleted() );
 
         return subjectInfoBO;
@@ -108,6 +112,10 @@ public class SubjectDTOConverterImpl implements SubjectDTOConverter {
         subjectInfoDTO.setCreateUser( subjectInfoBO.getCreateUser() );
         subjectInfoDTO.setCreateUserAvatar( subjectInfoBO.getCreateUserAvatar() );
         subjectInfoDTO.setSubjectCount( subjectInfoBO.getSubjectCount() );
+        subjectInfoDTO.setLikedCount( subjectInfoBO.getLikedCount() );
+        subjectInfoDTO.setLiked( subjectInfoBO.getLiked() );
+        subjectInfoDTO.setNextSubjectId( subjectInfoBO.getNextSubjectId() );
+        subjectInfoDTO.setLastSubjectId( subjectInfoBO.getLastSubjectId() );
         subjectInfoDTO.setIsDeleted( subjectInfoBO.getIsDeleted() );
 
         return subjectInfoDTO;

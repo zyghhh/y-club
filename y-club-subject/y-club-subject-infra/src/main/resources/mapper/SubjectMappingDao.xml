@@ -16,10 +16,17 @@
 
     <!--查询单个-->
     <select id="queryById" resultMap="SubjectMappingMap">
-        select
-            id, subject_id, category_id, label_id, created_by, created_time, update_by, update_time, is_deleted
+        select id,
+               subject_id,
+               category_id,
+               label_id,
+               created_by,
+               created_time,
+               update_by,
+               update_time,
+               is_deleted
         from subject_mapping
-        where  = #{id}
+        where = #{id}
     </select>
 
     <!--查询指定行数据-->
@@ -129,23 +136,29 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="" useGeneratedKeys="true">
-        insert into subject_mapping(id, subject_id, category_id, label_id, created_by, created_time, update_by, update_time, is_deleted)
-        values (#{id}, #{subjectId}, #{categoryId}, #{labelId}, #{createdBy}, #{createdTime}, #{updateBy}, #{updateTime}, #{isDeleted})
+        insert into subject_mapping(id, subject_id, category_id, label_id, created_by, created_time, update_by,
+                                    update_time, is_deleted)
+        values (#{id}, #{subjectId}, #{categoryId}, #{labelId}, #{createdBy}, #{createdTime}, #{updateBy},
+                #{updateTime}, #{isDeleted})
     </insert>
 
     <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
-        insert into subject_mapping(id, subject_id, category_id, label_id, created_by, created_time, update_by, update_time, is_deleted)
+        insert into subject_mapping(id, subject_id, category_id, label_id, created_by, created_time, update_by,
+        update_time, is_deleted)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.id}, #{entity.subjectId}, #{entity.categoryId}, #{entity.labelId}, #{entity.createdBy}, #{entity.createdTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.isDeleted})
+            (#{entity.id}, #{entity.subjectId}, #{entity.categoryId}, #{entity.labelId}, #{entity.createdBy},
+            #{entity.createdTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.isDeleted})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
-        insert into subject_mapping(id, subject_id, category_id, label_id, created_by, created_time, update_by, update_time, is_deleted)
+        insert into subject_mapping(id, subject_id, category_id, label_id, created_by, created_time, update_by,
+        update_time, is_deleted)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.id}, #{entity.subjectId}, #{entity.categoryId}, #{entity.labelId}, #{entity.createdBy}, #{entity.createdTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.isDeleted})
+            (#{entity.id}, #{entity.subjectId}, #{entity.categoryId}, #{entity.labelId}, #{entity.createdBy},
+            #{entity.createdTime}, #{entity.updateBy}, #{entity.updateTime}, #{entity.isDeleted})
         </foreach>
         on duplicate key update
         id = values(id),
@@ -191,12 +204,14 @@
                 is_deleted = #{isDeleted},
             </if>
         </set>
-        where  = #{id}
+        where = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from subject_mapping where  = #{id}
+        delete
+        from subject_mapping
+        where = #{id}
     </delete>
 
 </mapper>

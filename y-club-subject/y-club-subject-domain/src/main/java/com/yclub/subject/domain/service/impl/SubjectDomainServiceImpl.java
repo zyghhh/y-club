@@ -4,12 +4,15 @@ import com.alibaba.fastjson.JSON;
 import com.yclub.subject.common.entity.PageResult;
 import com.yclub.subject.common.enums.IsDeletedFlagEnum;
 import com.yclub.subject.common.util.IdWorkerUtil;
+import com.yclub.subject.common.util.LoginUtil;
 import com.yclub.subject.domain.convert.SubjectInfoConverter;
 import com.yclub.subject.domain.entity.SubjectInfoBO;
 import com.yclub.subject.domain.entity.SubjectOptionBO;
 import com.yclub.subject.domain.handler.subject.SubjectTypeHandler;
 import com.yclub.subject.domain.handler.subject.SubjectTypeHandlerFactory;
+import com.yclub.subject.domain.redis.RedisUtil;
 import com.yclub.subject.domain.service.SubjectDomainService;
+import com.yclub.subject.domain.service.SubjectLikedDomainService;
 import com.yclub.subject.infra.basic.entity.*;
 import com.yclub.subject.infra.basic.rpc.UserRpc;
 import com.yclub.subject.infra.basic.service.SubjectEsService;
@@ -17,6 +20,7 @@ import com.yclub.subject.infra.basic.service.SubjectInfoService;
 import com.yclub.subject.infra.basic.service.SubjectLabelService;
 import com.yclub.subject.infra.basic.service.SubjectMappingService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -51,6 +55,13 @@ public class SubjectDomainServiceImpl implements SubjectDomainService {
     @Resource
     UserRpc userRpc;
 
+    @Resource
+    RedisUtil redisUtil;
+
+    @Resource
+    SubjectLikedDomainService subjectLikedDomainService;
+
+    private static final String RANK_KEY = "subject_rank";
 
     @Override
     @Transactional(rollbackFor = Exception.class)// 设计多表操作 加rollBackFor 用注解控制事务
@@ -64,6 +75,28 @@ public class SubjectDomainServiceImpl implements SubjectDomainService {
         SubjectTypeHandler handler = subjectTypeHandlerFactory.getHandler(subjectInfoBO.getSubjectType());
         subjectInfoBO.setId(subjectInfo.getId());
         handler.add(subjectInfoBO);
+        List<SubjectMapping> subjectMappingList = getSubjectMappings(subjectInfoBO);
+        subjectMappingService.batchInsert(subjectMappingList);
+
+        // add 题目要同步到ES
+        insertSubject2ES(subjectInfoBO, subjectInfo);
+        //zSet 缓存贡献数据 计算排行榜
+        redisUtil.addScore(RANK_KEY, LoginUtil.getLoginId(), 1);
+    }
+
+    private void insertSubject2ES(SubjectInfoBO subjectInfoBO, SubjectInfo subjectInfo) {
+        SubjectInfoEs subjectInfoEs = new SubjectInfoEs();
+        subjectInfoEs.setDocId(new IdWorkerUtil(1, 1, 1).nextId());
+        subjectInfoEs.setSubjectId(subjectInfo.getId());
+        subjectInfoEs.setSubjectAnswer(subjectInfoBO.getSubjectAnswer());
+        subjectInfoEs.setCreateTime(new Date().getTime());
+        subjectInfoEs.setCreateUser(LoginUtil.getLoginId());
+        subjectInfoEs.setSubjectName(subjectInfoBO.getSubjectName());
+        subjectInfoEs.setSubjectType(subjectInfoBO.getSubjectType());
+        subjectEsService.insert(subjectInfoEs);
+    }
+
+    private static List<SubjectMapping> getSubjectMappings(SubjectInfoBO subjectInfoBO) {
         List<SubjectMapping> subjectMappingList = new ArrayList<>();
         List<Long> categoryIds = subjectInfoBO.getCategoryIds();
         List<Long> labelIds = subjectInfoBO.getLabelIds();
@@ -77,19 +110,7 @@ public class SubjectDomainServiceImpl implements SubjectDomainService {
                 subjectMappingList.add(subjectMapping);
             });
         });
-        subjectMappingService.batchInsert(subjectMappingList);
-
-        // add 题目要同步到ES
-        SubjectInfoEs subjectInfoEs = new SubjectInfoEs();
-        subjectInfoEs.setDocId(new IdWorkerUtil(1, 1, 1).nextId());
-        subjectInfoEs.setSubjectId(subjectInfo.getId());
-        subjectInfoEs.setSubjectAnswer(subjectInfoBO.getSubjectAnswer());
-        subjectInfoEs.setCreateTime(new Date().getTime());
-        //subjectInfoEs.setCreateUser(LoginUtil.getLoginId());
-        subjectInfoEs.setCreateUser("zyg");
-        subjectInfoEs.setSubjectName(subjectInfoBO.getSubjectName());
-        subjectInfoEs.setSubjectType(subjectInfoBO.getSubjectType());
-        subjectEsService.insert(subjectInfoEs);
+        return subjectMappingList;
     }
 
     @Override
@@ -126,7 +147,23 @@ public class SubjectDomainServiceImpl implements SubjectDomainService {
         List<SubjectLabel> labelList = subjectLabelService.batchQueryByIds(labelIdList);
         List<String> labelNameList = labelList.stream().map(SubjectLabel::getLabelName).collect(Collectors.toList());
         bo.setLabelName(labelNameList);
+        bo.setLiked(subjectLikedDomainService.isLiked(subjectInfoBO.getId().toString(), LoginUtil.getLoginId()));
+        bo.setLikedCount(subjectLikedDomainService.getLikedCount(subjectInfoBO.getId().toString()));
+        assembleSubjectCursor(subjectInfoBO, bo);
         return bo;
+    }
+
+    private void assembleSubjectCursor(SubjectInfoBO subjectInfoBO, SubjectInfoBO bo) {
+        Long categoryId = subjectInfoBO.getCategoryId();
+        Long labelId = subjectInfoBO.getLabelId();
+        Long subjectId = subjectInfoBO.getId();
+        if (Objects.isNull(categoryId) || Objects.isNull(labelId)) {
+            return;
+        }
+        Long nextSubjectId = subjectInfoService.querySubjectIdCursor(subjectId, categoryId, labelId, 1);
+        bo.setNextSubjectId(nextSubjectId);
+        Long lastSubjectId = subjectInfoService.querySubjectIdCursor(subjectId, categoryId, labelId, 0);
+        bo.setLastSubjectId(lastSubjectId);
     }
 
     @Override
@@ -144,21 +181,43 @@ public class SubjectDomainServiceImpl implements SubjectDomainService {
     @Override
     public List<SubjectInfoBO> getContributeList() {
         List<SubjectInfo> subjectInfoList = subjectInfoService.getContributeCount();
-        if(CollectionUtils.isEmpty(subjectInfoList)){
+        if (CollectionUtils.isEmpty(subjectInfoList)) {
             return Collections.emptyList();
         }
         List<SubjectInfoBO> subjectInfoBOList = new LinkedList<>();
         subjectInfoList.forEach(subjectInfo -> {
             SubjectInfoBO subjectInfoBO = new SubjectInfoBO();
             subjectInfoBO.setSubjectCount(subjectInfo.getSubjectCount());
-             UserInfo userInfo = userRpc.getUserInfo(subjectInfo.getCreatedBy());
-             subjectInfoBO.setCreateUser(userInfo.getNickName());
-             subjectInfoBO.setCreateUserAvatar(userInfo.getAvatar());
-             subjectInfoBOList.add(subjectInfoBO);
+            UserInfo userInfo = userRpc.getUserInfo(subjectInfo.getCreatedBy());
+            subjectInfoBO.setCreateUser(userInfo.getNickName());
+            subjectInfoBO.setCreateUserAvatar(userInfo.getAvatar());
+            subjectInfoBOList.add(subjectInfoBO);
         });
         //按照贡献数排序
         subjectInfoBOList.sort(((o1, o2) -> o2.getSubjectCount() - o1.getSubjectCount()));
         return subjectInfoBOList;
+    }
+
+    @Override
+    public List<SubjectInfoBO> getContributeListByRedis() {
+        Set<ZSetOperations.TypedTuple<String>> typedTuples = redisUtil.rankWithScore(RANK_KEY, 0, 5);
+        if (log.isInfoEnabled()) {
+            log.info("SubjectDomainServiceImpl.getContributeListByRedis.typedTuples:{}", JSON.toJSONString(typedTuples));
+        }
+        if (CollectionUtils.isEmpty(typedTuples)) {
+            return Collections.emptyList();
+        }
+        List<SubjectInfoBO> boList = new LinkedList<>();
+        typedTuples.forEach(rank -> {
+            SubjectInfoBO subjectInfoBO = new SubjectInfoBO();
+            subjectInfoBO.setSubjectCount(rank.getScore().intValue());
+            UserInfo userInfo = userRpc.getUserInfo(rank.getValue());
+            subjectInfoBO.setCreateUser(userInfo.getNickName());
+            subjectInfoBO.setCreateUserAvatar(userInfo.getAvatar());
+            boList.add(subjectInfoBO);
+        });
+        return boList;
+
     }
 
 }

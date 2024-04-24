@@ -1,10 +1,15 @@
 package com.yclub.subject.domain.redis;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ScanOptions;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -102,5 +107,33 @@ public class RedisUtil {
         return redisTemplate.opsForZSet().rank(key, obj);
     }
 
+    public Set<ZSetOperations.TypedTuple<String>> rankWithScore(String key, long start, long end){
+        Set<ZSetOperations.TypedTuple<String>> set = redisTemplate.opsForZSet()
+                .reverseRangeWithScores(key,start,end);
+        return set;
+    }
 
+    public void putHash(String key, String hashKey, String value){
+        redisTemplate.opsForHash().put(key,hashKey,value);
+    }
+    public Integer getInt(String key){
+        return (Integer) redisTemplate.opsForValue().get(key);
+    }
+
+    public void increment(String key,Integer count){
+         redisTemplate.opsForValue().increment(key,count);
+    }
+
+    public Map<Object, Object> getHashAndDelete(String key) {
+        Map<Object, Object> map = new HashMap<>();
+        Cursor<Map.Entry<Object, Object>> cursor = redisTemplate.opsForHash().scan(key, ScanOptions.NONE);
+        while (cursor.hasNext()) {
+            Map.Entry<Object, Object> entry = cursor.next();
+            Object hashKey = entry.getKey();
+            Object value = entry.getValue();
+            map.put(hashKey, value);
+            redisTemplate.opsForHash().delete(key, hashKey);
+        }
+        return map;
+    }
 }

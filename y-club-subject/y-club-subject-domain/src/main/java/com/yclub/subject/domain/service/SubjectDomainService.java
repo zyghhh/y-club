@@ -25,4 +25,7 @@ public interface SubjectDomainService {
     PageResult<SubjectInfoEs> getSubjectPageBySearch(SubjectInfoBO subjectInfoBO);
 
     List<SubjectInfoBO> getContributeList();
-}
+
+    public List<SubjectInfoBO> getContributeListByRedis() ;
+
+    }

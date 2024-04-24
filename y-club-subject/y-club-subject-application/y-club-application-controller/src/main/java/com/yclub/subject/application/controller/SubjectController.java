@@ -135,7 +135,8 @@ public class SubjectController {
     @PostMapping("/getContributeList")
     public Result<List<SubjectInfoDTO>> getContributeList() {
         try {
-            List<SubjectInfoBO> boList = subjectDomainService.getContributeList();
+//            List<SubjectInfoBO> boList = subjectDomainService.getContributeList();
+            List<SubjectInfoBO> boList = subjectDomainService.getContributeListByRedis();
             List<SubjectInfoDTO> dtoList = SubjectDTOConverter.INSTANCE.convertBoToSubjectInfoList(boList);
             return Result.ok(dtoList);
         } catch (Exception e) {

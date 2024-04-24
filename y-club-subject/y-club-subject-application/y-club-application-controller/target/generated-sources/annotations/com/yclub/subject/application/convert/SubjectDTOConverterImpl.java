@@ -10,7 +10,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-04-23T09:32:05+0800",
+    date = "2024-04-23T16:37:29+0800",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 1.8.0_212 (Oracle Corporation)"
 )
 public class SubjectDTOConverterImpl implements SubjectDTOConverter {
@@ -49,6 +49,9 @@ public class SubjectDTOConverterImpl implements SubjectDTOConverter {
         subjectInfoBO.setCategoryId( subjectInfoDTO.getCategoryId() );
         subjectInfoBO.setOptionList( subjectAnswerDTOListToSubjectAnswerBOList( subjectInfoDTO.getOptionList() ) );
         subjectInfoBO.setKeyWord( subjectInfoDTO.getKeyWord() );
+        subjectInfoBO.setCreateUser( subjectInfoDTO.getCreateUser() );
+        subjectInfoBO.setCreateUserAvatar( subjectInfoDTO.getCreateUserAvatar() );
+        subjectInfoBO.setSubjectCount( subjectInfoDTO.getSubjectCount() );
         subjectInfoBO.setIsDeleted( subjectInfoDTO.getIsDeleted() );
 
         return subjectInfoBO;
@@ -102,6 +105,9 @@ public class SubjectDTOConverterImpl implements SubjectDTOConverter {
         subjectInfoDTO.setCategoryId( subjectInfoBO.getCategoryId() );
         subjectInfoDTO.setOptionList( subjectAnswerBOListToSubjectAnswerDTOList( subjectInfoBO.getOptionList() ) );
         subjectInfoDTO.setKeyWord( subjectInfoBO.getKeyWord() );
+        subjectInfoDTO.setCreateUser( subjectInfoBO.getCreateUser() );
+        subjectInfoDTO.setCreateUserAvatar( subjectInfoBO.getCreateUserAvatar() );
+        subjectInfoDTO.setSubjectCount( subjectInfoBO.getSubjectCount() );
         subjectInfoDTO.setIsDeleted( subjectInfoBO.getIsDeleted() );
 
         return subjectInfoDTO;

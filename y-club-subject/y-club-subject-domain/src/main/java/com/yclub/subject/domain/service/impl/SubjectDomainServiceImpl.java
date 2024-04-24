@@ -10,10 +10,8 @@ import com.yclub.subject.domain.entity.SubjectOptionBO;
 import com.yclub.subject.domain.handler.subject.SubjectTypeHandler;
 import com.yclub.subject.domain.handler.subject.SubjectTypeHandlerFactory;
 import com.yclub.subject.domain.service.SubjectDomainService;
-import com.yclub.subject.infra.basic.entity.SubjectInfo;
-import com.yclub.subject.infra.basic.entity.SubjectInfoEs;
-import com.yclub.subject.infra.basic.entity.SubjectLabel;
-import com.yclub.subject.infra.basic.entity.SubjectMapping;
+import com.yclub.subject.infra.basic.entity.*;
+import com.yclub.subject.infra.basic.rpc.UserRpc;
 import com.yclub.subject.infra.basic.service.SubjectEsService;
 import com.yclub.subject.infra.basic.service.SubjectInfoService;
 import com.yclub.subject.infra.basic.service.SubjectLabelService;
@@ -21,11 +19,10 @@ import com.yclub.subject.infra.basic.service.SubjectMappingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -50,6 +47,9 @@ public class SubjectDomainServiceImpl implements SubjectDomainService {
 
     @Resource
     SubjectEsService subjectEsService;
+
+    @Resource
+    UserRpc userRpc;
 
 
     @Override
@@ -140,4 +140,25 @@ public class SubjectDomainServiceImpl implements SubjectDomainService {
         subjectInfoEs.setPageSize(subjectInfoBO.getPageSize());
         return subjectEsService.querySubjectList(subjectInfoEs);
     }
+
+    @Override
+    public List<SubjectInfoBO> getContributeList() {
+        List<SubjectInfo> subjectInfoList = subjectInfoService.getContributeCount();
+        if(CollectionUtils.isEmpty(subjectInfoList)){
+            return Collections.emptyList();
+        }
+        List<SubjectInfoBO> subjectInfoBOList = new LinkedList<>();
+        subjectInfoList.forEach(subjectInfo -> {
+            SubjectInfoBO subjectInfoBO = new SubjectInfoBO();
+            subjectInfoBO.setSubjectCount(subjectInfo.getSubjectCount());
+             UserInfo userInfo = userRpc.getUserInfo(subjectInfo.getCreatedBy());
+             subjectInfoBO.setCreateUser(userInfo.getNickName());
+             subjectInfoBO.setCreateUserAvatar(userInfo.getAvatar());
+             subjectInfoBOList.add(subjectInfoBO);
+        });
+        //按照贡献数排序
+        subjectInfoBOList.sort(((o1, o2) -> o2.getSubjectCount() - o1.getSubjectCount()));
+        return subjectInfoBOList;
+    }
+
 }

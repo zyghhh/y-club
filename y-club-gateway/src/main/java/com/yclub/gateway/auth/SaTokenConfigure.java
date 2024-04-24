@@ -33,9 +33,9 @@ public class SaTokenConfigure {
 //                    SaRouter.match("/**", "/auth/user/doLogin", r -> StpUtil.checkLogin());
 //                    SaRouter.match("/**", "/auth/user/doLogin", r -> StpUtil.checkRole("admin"));
 
-                    // 权限认证 -- 不同模块, 校验不同权限
-//                    SaRouter.match("/subject/**", r -> StpUtil.checkRole("normal_user"));
-//                    SaRouter.match("/subject/add", r -> StpUtil.checkPermission("subject:add"));
+                    SaRouter.match("/oss/**", r -> StpUtil.checkLogin());
+                    SaRouter.match("/subject/subject/add", r -> StpUtil.checkPermission("subject:add"));
+                    SaRouter.match("/subject/**", r -> StpUtil.checkLogin());
 
 
                     // 更多匹配 ...  */

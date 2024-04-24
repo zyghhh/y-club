@@ -129,5 +129,19 @@ public class SubjectController {
         }
     }
 
+    /**
+     * 获取题目贡献榜
+     */
+    @PostMapping("/getContributeList")
+    public Result<List<SubjectInfoDTO>> getContributeList() {
+        try {
+            List<SubjectInfoBO> boList = subjectDomainService.getContributeList();
+            List<SubjectInfoDTO> dtoList = SubjectDTOConverter.INSTANCE.convertBoToSubjectInfoList(boList);
+            return Result.ok(dtoList);
+        } catch (Exception e) {
+            log.error("SubjectCategoryController.getContributeList.error:{}", e.getMessage(), e);
+            return Result.fail("获取贡献榜失败");
+        }
+    }
 
 }

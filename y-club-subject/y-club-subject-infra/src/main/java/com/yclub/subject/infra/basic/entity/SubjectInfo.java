@@ -57,6 +57,10 @@ public class SubjectInfo implements Serializable {
      * 修改时间
      */
     private Date updateTime;
+    /**
+     * 修改时间
+     */
+    private Integer subjectCount;
 
     private Integer isDeleted;
 

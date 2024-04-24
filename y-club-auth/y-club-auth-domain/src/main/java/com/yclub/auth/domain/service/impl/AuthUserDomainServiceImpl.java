@@ -71,7 +71,7 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
             authUser.setPassword(SaSecureUtil.sha256BySalt(authUser.getPassword(), salt));
         }
         if (StringUtils.isBlank(authUser.getAvatar())) {
-            authUser.setAvatar("http://117.72.10.84:9000/user/icon/微信图片_20231203153718(1).png");
+            authUser.setAvatar("http://116.196.94.167:9000/user/icon/coding.png");
         }
         authUser.setStatus(AuthUserStatusEnum.OPEN.getCode());
         authUser.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
@@ -134,7 +134,8 @@ public class AuthUserDomainServiceImpl implements AuthUserDomainService {
     @SneakyThrows
     public Boolean update(AuthUserBO authUserBO) {
         AuthUser authUser = AuthUserBOConverter.INSTANCE.convertBOToEntity(authUserBO);
-        return authUserService.update(authUser) > 0;
+        Integer count = authUserService.updateByUserName(authUser);
+        return count > 0;
     }
 
     @Override

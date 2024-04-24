@@ -62,7 +62,6 @@ public class UserController {
                 log.info("UserController.update.dto:{}", JSON.toJSONString(authUserDTO));
             }
             checkUserInfo(authUserDTO);
-            Preconditions.checkNotNull(authUserDTO.getId());
             AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
             //由于权限控制直接依赖于redis 更新用户时是否要刷redis?
             return Result.ok(authUserDomainService.update(authUserBO));
@@ -152,6 +151,7 @@ public class UserController {
     @RequestMapping("doLogin")
     public Result<SaTokenInfo> doLogin(@RequestParam("validCode") String validCode) {
         try {
+            log.info("UserController.doLogin.validCode:{}", validCode);
             Preconditions.checkArgument(!StringUtils.isBlank(validCode), "验证码不能为空!");
             return Result.ok(authUserDomainService.doLogin(validCode));
         } catch (Exception e) {

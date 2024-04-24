@@ -41,7 +41,7 @@ public class SubjectCategoryController {
     private SubjectCategoryService subjectCategoryService;
 
     @RequestMapping("/add")
-    public Result<Boolean> test(@RequestBody SubjectCategoryDTO subjectCategoryDTO) {
+    public Result<Boolean> add(@RequestBody SubjectCategoryDTO subjectCategoryDTO) {
         try {
             if (log.isInfoEnabled()) {
                 log.info("SubjectCategoryController.add.dto:{}", JSON.toJSONString(subjectCategoryDTO));

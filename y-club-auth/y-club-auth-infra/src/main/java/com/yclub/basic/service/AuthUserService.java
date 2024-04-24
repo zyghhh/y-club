@@ -48,4 +48,6 @@ public interface AuthUserService {
     boolean deleteById(Long id);
 
     List<AuthUser> queryByCondition(AuthUser existAuthUser);
+
+    Integer updateByUserName(AuthUser authUser);
 }

@@ -89,8 +89,8 @@ public class SubjectLikedServiceImpl implements SubjectLikedService {
     }
 
     @Override
-    public void batchInsertOrUpdate(List<SubjectLiked> subjectLikedList) {
-        this.subjectLikedDao.batchInsertOrUpdate(subjectLikedList);
+    public void batchInsertOrUpdate(List<SubjectLiked> list) {
+        this.subjectLikedDao.batchInsertOrUpdate(list);
     }
 
     @Override
@@ -101,5 +101,10 @@ public class SubjectLikedServiceImpl implements SubjectLikedService {
     @Override
     public List<SubjectLiked> queryPage(SubjectLiked subjectLiked, int start, Integer pageSize) {
         return this.subjectLikedDao.queryPage(subjectLiked, start, pageSize);
+    }
+
+    @Override
+    public List<SubjectLiked> queryAll() {
+        return this.subjectLikedDao.queryAll();
     }
 }

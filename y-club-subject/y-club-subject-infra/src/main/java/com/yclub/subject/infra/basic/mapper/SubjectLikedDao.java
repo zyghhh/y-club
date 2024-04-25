@@ -82,5 +82,8 @@ public interface SubjectLikedDao {
     List<SubjectLiked> queryPage(@Param("entity") SubjectLiked subjectLiked,
                                  @Param("start") int start,
                                  @Param("pageSize") Integer pageSize);
+
+    List<SubjectLiked> queryAll();
+
 }
 

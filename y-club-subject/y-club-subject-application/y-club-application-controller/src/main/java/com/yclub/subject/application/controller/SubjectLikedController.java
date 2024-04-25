@@ -10,6 +10,7 @@ import com.yclub.subject.common.util.LoginUtil;
 import com.yclub.subject.domain.entity.SubjectLikedBO;
 import com.yclub.subject.domain.service.SubjectLikedDomainService;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RedissonClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -128,6 +129,19 @@ public class SubjectLikedController {
         } catch (Exception e) {
             log.error("SubjectLikedController.delete.error:{}", e.getMessage(), e);
             return Result.fail("删除题目点赞表信息失败");
+        }
+
+    }
+
+    @RequestMapping("syncLiked")
+    public Result<Boolean> syncLiked() {
+
+        try {
+            subjectLikedDomainService.syncLiked();
+            return Result.ok(true);
+        } catch (Exception e) {
+            log.error("SubjectLikedController.delete.error:{}", e.getMessage(), e);
+            return Result.fail("同步点赞表信息失败");
         }
 
     }

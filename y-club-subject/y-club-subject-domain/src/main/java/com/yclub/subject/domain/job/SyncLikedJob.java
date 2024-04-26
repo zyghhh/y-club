@@ -37,12 +37,9 @@ public class SyncLikedJob {
     public void syncLikedJobHandler() throws Exception {
         XxlJobHelper.log("syncLikedJobHandler started.");
         try {
-            lock.lock();
             subjectLikedDomainService.syncLiked();
         } catch (Exception e) {
             XxlJobHelper.log("syncLikedJobHandler error:" + e.getMessage());
-        } finally {
-            lock.unlock(); // 释放锁
         }
     }
 

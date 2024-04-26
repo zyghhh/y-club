@@ -10,7 +10,6 @@ import com.yclub.subject.common.util.LoginUtil;
 import com.yclub.subject.domain.entity.SubjectLikedBO;
 import com.yclub.subject.domain.service.SubjectLikedDomainService;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RedissonClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

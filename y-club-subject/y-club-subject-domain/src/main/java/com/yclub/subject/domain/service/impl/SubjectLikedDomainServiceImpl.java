@@ -15,8 +15,6 @@ import com.yclub.subject.infra.basic.service.SubjectInfoService;
 import com.yclub.subject.infra.basic.service.SubjectLikedService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.MapUtils;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -114,14 +112,6 @@ public class SubjectLikedDomainServiceImpl implements SubjectLikedDomainService 
             subjectLiked.setStatus(Integer.valueOf(v.toString()));
             subjectLiked.setIsDeleted(IsDeletedFlagEnum.UN_DELETED.getCode());
             subjectLikedList.add(subjectLiked);
-        });
-        List<SubjectLiked> exist = subjectLikedService.queryAll();
-        subjectLikedList.forEach(subjectLiked -> {
-            exist.forEach(existSubjectLiked -> {
-                if (subjectLiked.getSubjectId().equals(existSubjectLiked.getSubjectId()) && subjectLiked.getLikeUserId().equals(existSubjectLiked.getLikeUserId())) {
-                    subjectLiked.setId(existSubjectLiked.getId());
-                }
-            });
         });
         subjectLikedService.batchInsertOrUpdate(subjectLikedList);
     }

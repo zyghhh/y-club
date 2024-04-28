@@ -104,11 +104,6 @@ public class SubjectCategoryDomainServiceImpl implements SubjectCategoryDomainSe
         Long queryId = subjectCategoryBO.getParentId();
         String cacheKey = "categoryAndLabel." + queryId;
         List<SubjectCategoryBO> boList = CacheUtil.getListResult(cacheKey, SubjectCategoryBO.class, (key) -> getSubjectCategoryBOS(queryId));
-//        Map<String ,String> testMap = new HashMap<>();
-//        testMap.put("test","test");
-//        testMap.put("test1","test1");
-//        String mapKey = "testMap";
-//        Map mappedResult = CacheUtil.getMappedResult(mapKey, String.class, (key) -> testMap);
         return boList;
     }
 

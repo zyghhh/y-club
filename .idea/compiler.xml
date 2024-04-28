@@ -15,9 +15,11 @@
         <module name="y-club-auth-domain" />
         <module name="y-club-auth-infra" />
         <module name="y-club-subject-common" />
+        <module name="y-club-practice-api" />
         <module name="y-club-subject-api" />
         <module name="y-club-subject-infra" />
         <module name="y-club-auth-common" />
+        <module name="y-club-practice-server" />
         <module name="y-club-oss" />
         <module name="y-club-wx" />
         <module name="y-club-subject-domain" />

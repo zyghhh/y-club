@@ -6,6 +6,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 /**
  * @desc:
  * @author: zyg
@@ -17,5 +19,6 @@ public interface UserFeignService {
     @RequestMapping("/user/getUserInfo")
     public Result<AuthUserDTO> getUserInfo(@RequestBody AuthUserDTO authUserDTO) ;
 
-
+    @RequestMapping("/user/batchGetUserInfo")
+    Result<List<AuthUserDTO>> batchGetUserInfo(List<AuthUserDTO> authUserDTOList);
 }

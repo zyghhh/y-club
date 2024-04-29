@@ -33,5 +33,11 @@ public class SubjectDetailDTO implements Serializable {
      */
     private List<SubjectOptionDTO> optionList;
 
+    /**
+     * 简答题答案
+     */
+    private String briefAnswer;
+
+
 
 }

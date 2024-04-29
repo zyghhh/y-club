@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @desc:
@@ -126,6 +128,28 @@ public class UserController {
         } catch (Exception e) {
             log.error("UserController.getUserInfo.error:{}", e.getMessage(), e);
             return Result.fail("获取用户信息失败");
+        }
+    }
+
+    /**
+     * 批量获取用户信息
+     */
+    @RequestMapping("batchGetUserInfo")
+    public Result<List<AuthUserDTO>> batchGetUserInfo(@RequestBody List<AuthUserDTO> authUserDTOList) {
+        try {
+            if (log.isInfoEnabled()) {
+                log.info("UserController.batchGetUserInfo.dto:{}", JSON.toJSONString(authUserDTOList));
+            }
+            List<AuthUserDTO> result = new ArrayList<>();
+            authUserDTOList.forEach(authUserDTO -> {
+                AuthUserBO authUserBO = AuthUserDTOConverter.INSTANCE.convertDTOToBO(authUserDTO);
+                AuthUserBO userInfo = authUserDomainService.getUserInfo(authUserBO);
+                result.add(AuthUserDTOConverter.INSTANCE.convertBOToDTO(userInfo));
+            });
+            return Result.ok(result);
+        } catch (Exception e) {
+            log.error("UserController.batchGetUserInfo.error:{}", e.getMessage(), e);
+            return Result.fail("批量获取用户信息失败");
         }
     }
 

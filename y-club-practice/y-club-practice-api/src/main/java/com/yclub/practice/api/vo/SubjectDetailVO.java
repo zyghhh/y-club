@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class SubjectDetailVO implements Serializable {
+public class SubjectDetailVO<T> implements Serializable {
 
     /**
      * 正确答案
@@ -16,7 +16,7 @@ public class SubjectDetailVO implements Serializable {
     /**
      * 答题者答案
      */
-    private List<Integer> respondAnswer;
+    private List<T> respondAnswer;
 
     /**
      * 题目解析
@@ -37,5 +37,10 @@ public class SubjectDetailVO implements Serializable {
      * 题目名称
      */
     private String subjectName;
+
+    /**
+     * 题目名称
+     */
+    private boolean isCorrect;
 
 }

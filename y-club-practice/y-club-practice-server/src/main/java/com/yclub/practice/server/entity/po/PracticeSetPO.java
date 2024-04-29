@@ -50,11 +50,11 @@ public class PracticeSetPO implements Serializable {
      * 更新人
      */
     private String updateBy;
-
-    private Integer isDeleted;
     /**
      * 更新时间
      */
     private Date updateTime;
+
+    private Integer isDeleted;
 
 }

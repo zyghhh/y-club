@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/y-club-subject/pom.xml" />
+        <option value="$PROJECT_DIR$/y-club-subject-api/pom.xml" />
+        <option value="$PROJECT_DIR$/y-club-oss/pom.xml" />
+        <option value="$PROJECT_DIR$/y-club-auth/pom.xml" />
+        <option value="$PROJECT_DIR$/y-club-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/y-club-wx/pom.xml" />
+        <option value="$PROJECT_DIR$/y-club-practice/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/y-club-auth/y-club-auth-application/y-club-application-job/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="PWA">
+    <option name="wasEnabledAtLeastOnce" value="true" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>

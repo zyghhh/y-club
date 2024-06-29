@@ -1,0 +1,74 @@
+server:
+  port:
+    3010
+
+spring:
+  datasource:
+    username: admin
+    password: VgCaMPwB1PEoeU+aQuHB2kj0A8CXlM06MFrHaQwXFD/NbSjxdryF+OB0zvzaFDGPAQ2Uq3l3sBEuzURJk47nlA==
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://116.196.94.167:3306/Y_club?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=true
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      connectionProperties: config.decrypt=true;config.decrypt.key=${publicKey};
+      initial-size: 20
+      min-idle: 20
+      max-active: 100
+      max-wait: 60000
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: admin
+        login-password: VgCaMPwB1PEoeU+aQuHB2kj0A8CXlM06MFrHaQwXFD/NbSjxdryF+OB0zvzaFDGPAQ2Uq3l3sBEuzURJk47nlA==
+      filter:
+        stat:
+          enabled: true
+          slow-sql-mills: 2000
+          log-slow-sql: true
+        wall:
+          enabled: true
+        config:
+          enabled: true
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 2
+    # Redis服务器地址
+    host: 116.196.94.167
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password: 4fdg98rfg8e9r8gerg9udfg79a&**
+    # 连接超时时间
+    timeout: 2s
+    lettuce:
+      pool:
+        # 连接池最大连接数
+        max-active: 200
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
+
+publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALhpARMW0oJmyblpviRSn3tmZ/FInl4GzvQ8K1MX8y0eN7Is8Cfd2GBo5DgbBVPb4lD7z+Famv5Vde4MxsOw5RsCAwEAAQ==
+logging:
+  config: classpath:log4j2-spring.xml
+es:
+  cluster:
+    es-configs[0]:
+      name: 4cbfc28edf70
+      nodes: 116.196.94.167:9200
+
+xxl:
+  job:
+    admin:
+      addresses: http://127.0.0.1:8088/xxl-job-admin
+    accessToken: default_token
+    executor:
+      appname: y-club-subjcet
+      address:
+      ip: 127.0.0.1
+      port: 9999
+      logpath: /data/applogs/xxl-job/jobhandler
+      logretentiondays: 30
